@@ -228,10 +228,13 @@ const Floor = ({ onNext, onPrev, activeStep, details }) => {
     e.preventDefault();
     const form = e.target;
     const data = new FormData(form);
-    const floor = data.get("floor");
+    let floor = data.get("floor");
     if (!floor) {
       alert("Please select a floor");
       return;
+    }
+    if (floor == "Ground") {
+      floor = 0;
     }
     onNext(floor);
   };
