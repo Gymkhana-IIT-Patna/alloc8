@@ -24,6 +24,7 @@ model students{
   roomnum String
   room String
   occupancy Int
+  gender String 
 }
 
 model fresherDetails{
