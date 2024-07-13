@@ -3,15 +3,11 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Spinner from "./components/spinner.jsx";
-import { Home, Landing, Others, Register } from "./pages/index.js";
+import { Home, WaitingPage, Others, Register } from "./pages/index.js";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Landing />,
-  },
-  {
-    path: "/logIn",
     element: <Home />,
   },
   {
@@ -21,6 +17,10 @@ const router = createBrowserRouter([
   {
     path: "/allotroom",
     element: <Others />,
+  },
+  {
+    path: "/waiting",
+    element: <WaitingPage />,
   },
 ]);
 
