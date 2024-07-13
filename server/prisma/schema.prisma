@@ -10,6 +10,7 @@ datasource db {
 model rooms {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   hostel String
+  floor String
   roomNum String
   capacity Int
   numFilled Int
