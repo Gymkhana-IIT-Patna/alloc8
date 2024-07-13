@@ -14,6 +14,7 @@ model rooms {
   roomNum String
   capacity Int
   numFilled Int
+  scope String 
 }
 
 model students{
@@ -23,4 +24,17 @@ model students{
   roomnum String
   room String
   occupancy Int
+  gender String 
+}
+
+model fresherDetails{
+  motherTongue String 
+  placeOfLiving String 
+  branch String
+  sportsHobbies String 
+  techHobbies String 
+  culturalHobbies String
+  nature String 
+  futureInterests String 
+  sleep String 
 }
