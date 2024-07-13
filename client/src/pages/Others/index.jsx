@@ -151,13 +151,13 @@ const Hostel = ({ details, onNext, onPrev, activeStep }) => {
   console.log(details);
 
   let hostel_str = "";
-  for (let i = 0; i < batchDetails.length; i++) {
+  for (let i = 0;i < batchDetails.length;i++) {
     let batchDetail = batchDetails[i];
     if (
       batchDetail.batch.trim().toLowerCase() ===
-        details.batch.trim().toLowerCase() &&
+      details.batch.trim().toLowerCase() &&
       batchDetail.gender.trim().toLowerCase() ===
-        details.gender.trim().toLowerCase()
+      details.gender.trim().toLowerCase()
     ) {
       hostel_str = batchDetail.hostel;
       break;
