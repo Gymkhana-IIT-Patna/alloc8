@@ -1,7 +1,6 @@
-const express = require("express");
+import express from "express";
+import nonfresherController from "../controller/nonfresherController.js"
 const router = express.Router();
-const nonfresherController= require("../controller/nonfresherController");
-const jwt = require("jsonwebtoken");
 
 //if allocated then get this and show to client 
 router.get("/allocated-details",nonfresherController.showDetails);
@@ -12,5 +11,4 @@ router.get("/allocated-details",nonfresherController.showDetails);
 router.get('/room-status',nonfresherController.getRoom);
 router.post('/room-booking',nonfresherController.roomBooking);
 
-
-module.exports = router;
+export default router;

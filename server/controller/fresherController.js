@@ -1,4 +1,4 @@
-const { PrismaClient } = require("@prisma/client");
+import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 
@@ -76,7 +76,4 @@ async function showDetails(req, res){
       }
 }
 
-module.exports = {
-    getDetails,
-    showDetails,
-};
+export default {getDetails, showDetails};
