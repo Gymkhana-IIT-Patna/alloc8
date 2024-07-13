@@ -14,7 +14,8 @@ model rooms {
   roomNum String
   capacity Int
   numFilled Int
-  scope String 
+  scope String
+  batch String
 }
 
 model students{
@@ -25,9 +26,11 @@ model students{
   room String
   occupancy Int
   gender String 
+  batch String
 }
 
 model fresherDetails{
+  rollnum String @id @map("_id") @db.ObjectId
   motherTongue String 
   placeOfLiving String 
   branch String
