@@ -15,15 +15,15 @@ async function releaseLock(key) {
 }
 
 const hostelMap = new Map();
-hostelMap.set("BTech21", "Kalam");
-hostelMap.set("BTech22", "Kalam");
-hostelMap.set("BTech23", "Aryabhatta");
+hostelMap.set("BTech21", "kalam");
+hostelMap.set("BTech22", "kalam");
+hostelMap.set("BTech23", "aryabhatta");
 
 async function showDetails(req, res) {
   const { rollnum } = req.query;
   try {
     const student = await prisma.students.findUnique({
-      where: { rollnum },
+      where: { rollnum: rollnum },
     });
 
     if (student && student.allocated) {
@@ -55,12 +55,10 @@ async function showDetails(req, res) {
 
 async function getRoom(req, res) {
   const { batch } = req.body;
-  const hostel = hostelMap.get(batch);
   try {
     const validRooms = await prisma.rooms.findMany({
       where: {
         AND: [
-          { hostel: hostel },
           { batch: batch },
           { numFilled: { lt: prisma.rooms.fields.capacity } },
         ],
@@ -73,11 +71,21 @@ async function getRoom(req, res) {
 }
 
 async function roomBooking(req, res) {
-  const { studentId, roomId } = req.body;
+  const { studentId, roomId, roomMates } = req.body;
   const lockKey = `room:${roomId}`;
+  const studentLockKey = `student:${studentId}`;
+
+  const studentLockAcquired = await acquireLock(studentLockKey, 30);
+
+  if (!studentLockAcquired) {
+    return res.status(400).json({
+      error: "Could not acquire lock for student ID. Please try again.",
+    });
+  }
 
   const lockAcquired = await acquireLock(lockKey, 20); // TTL of 20 seconds
   if (!lockAcquired) {
+    await releaseLock(studentLockKey);
     return res
       .status(400)
       .json({ error: "Could not acquire lock. Please try again." });
@@ -85,42 +93,59 @@ async function roomBooking(req, res) {
 
   try {
     const room = await prisma.rooms.findUnique({
-      where: { roomId: roomId },
+      where: { roomId },
     });
 
-    const student = await prisma.rooms.findUnique({
+    if (!room) {
+      console.log("Room does not exist:", roomId);
+      return res.status(400).json({ error: "Room does not exist" });
+    }
+
+    const student = await prisma.students.findUnique({
       where: { rollnum: studentId },
     });
-    
-    if(student && student.allocated){
-      return res.status(400).json({ error: "You have already been given a room. You can not book any more!" });
-    }
-    
-    if(student && student.batch != room.batch){
-      return res.status(400).json({ error: "This room is not available for your batch!" });
+
+    if (!student) {
+      console.log("Student does not exist:", studentId);
+      return res.status(400).json({ error: "Student does not exist" });
     }
 
-    if (room  && student && room.numFilled < room.capacity) {
+    if (student.allocated) {
+      return res.status(400).json({
+        error: "You have already been given a room. You cannot book any more!",
+      });
+    }
+
+    if (student.batch !== room.batch) {
+      return res
+        .status(400)
+        .json({ error: "This room is not available for your batch!" });
+    }
+
+    if (room.numFilled < room.capacity) {
+      console.log(room);
       await prisma.$transaction(async (prisma) => {
         await prisma.rooms.update({
-          where: { roomId: roomId },
+          where: { roomId },
           data: { numFilled: room.numFilled + 1 },
         });
 
         await prisma.students.update({
           where: { rollnum: studentId },
-          data: { allocated: true, roomnum: roomNum, room: roomId },
+          data: { allocated: true, roomnum: room.roomNum, room: roomId },
         });
       });
 
       return res.status(200).json({ message: "Room booked successfully" });
     } else {
-      return res.status(400).json({ error: "Room is full or does not exist" });
+      return res.status(400).json({ error: "Room is full" });
     }
   } catch (error) {
+    console.error("Error during room booking:", error);
     return res.status(500).json({ error: error.message });
   } finally {
     await releaseLock(lockKey);
+    await releaseLock(studentLockKey);
   }
 }
 

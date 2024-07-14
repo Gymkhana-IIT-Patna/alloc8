@@ -8,7 +8,8 @@ datasource db {
 }
 
 model rooms {
-  id String @id @map("_id") @db.ObjectId
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  roomId String @unique
   hostel String
   floor String
   roomNum String
@@ -19,7 +20,8 @@ model rooms {
 }
 
 model students{
-  rollnum String @id @map("_id") @db.ObjectId
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  rollnum String @unique
   allocated Boolean
   hostel String
   roomnum String
@@ -30,7 +32,8 @@ model students{
 }
 
 model fresherDetails{
-  rollnum String @id @map("_id") @db.ObjectId
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  rollnum String @unique
   motherTongue String 
   placeOfLiving String 
   branch String
