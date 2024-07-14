@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Spinner from "./components/spinner.jsx";
-import { Home, WaitingPage, Others, Register } from "./pages/index.js";
+import { Home, WaitingPage, Others, Register, AlottedRooms } from "./pages/index.js";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +21,10 @@ const router = createBrowserRouter([
   {
     path: "/waiting",
     element: <WaitingPage />,
+  },
+  {
+    path: "/AlottedRooms",
+    element: <AlottedRooms />,
   },
 ]);
 
