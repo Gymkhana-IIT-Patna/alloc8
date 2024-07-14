@@ -1,12 +1,12 @@
 .Full {
   background-color: #ffc8c8;
   color: #c23d3d;
-  border-color: #ed2424;
+  border-color: #ff9898;
 }
 .Partial {
   background-color: #ffefb3;
   color: #e38d00;
-  border-color: orange;
+  border-color: #ffc965;
 }
 .Available {
 }
