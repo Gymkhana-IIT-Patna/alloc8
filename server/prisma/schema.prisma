@@ -8,7 +8,7 @@ datasource db {
 }
 
 model rooms {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
+  id String @id @map("_id") @db.ObjectId
   hostel String
   floor String
   roomNum String

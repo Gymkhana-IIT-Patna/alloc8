@@ -1,12 +1,12 @@
-import Redis from "ioredis"
+import Redis from "ioredis";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 const redis = new Redis();
 
 async function acquireLock(key, ttl) {
   const lockKey = `lock:${key}`;
-  const result = await redis.set(lockKey, 'locked', 'NX', 'EX', ttl);
-  return result === 'OK';
+  const result = await redis.set(lockKey, "locked", "NX", "EX", ttl);
+  return result === "OK";
 }
 
 async function releaseLock(key) {
@@ -14,11 +14,10 @@ async function releaseLock(key) {
   await redis.del(lockKey);
 }
 
-
 const hostelMap = new Map();
 hostelMap.set("BTech21", "Kalam");
 hostelMap.set("BTech22", "Kalam");
-hostelMap.set("Btech23", "Aryabhatta");
+hostelMap.set("BTech23", "Aryabhatta");
 
 async function showDetails(req, res) {
   const { rollnum } = req.query;
@@ -74,8 +73,8 @@ async function getRoom(req, res) {
 }
 
 async function roomBooking(req, res) {
-  const { studentId, hostel, roomnum } = req.body;
-  const lockKey = `room:${hostel}:${roomnum}`;
+  const { studentId, roomId } = req.body;
+  const lockKey = `room:${roomId}`;
 
   const lockAcquired = await acquireLock(lockKey, 20); // TTL of 20 seconds
   if (!lockAcquired) {
@@ -86,19 +85,31 @@ async function roomBooking(req, res) {
 
   try {
     const room = await prisma.rooms.findUnique({
-      where: { hostel: hostel, roomNum: roomnum },
+      where: { roomId: roomId },
     });
 
-    if (room && room.numFilled < room.capacity) {
+    const student = await prisma.rooms.findUnique({
+      where: { rollnum: studentId },
+    });
+    
+    if(student && student.allocated){
+      return res.status(400).json({ error: "You have already been given a room. You can not book any more!" });
+    }
+    
+    if(student && student.batch != room.batch){
+      return res.status(400).json({ error: "This room is not available for your batch!" });
+    }
+
+    if (room  && student && room.numFilled < room.capacity) {
       await prisma.$transaction(async (prisma) => {
         await prisma.rooms.update({
-          where: { hostel: hostel, roomNum: roomnum },
+          where: { roomId: roomId },
           data: { numFilled: room.numFilled + 1 },
         });
 
         await prisma.students.update({
-          where: { id: studentId },
-          data: { allocated: true, roomnum: roomnum, room: room.id },
+          where: { rollnum: studentId },
+          data: { allocated: true, roomnum: roomNum, room: roomId },
         });
       });
 
