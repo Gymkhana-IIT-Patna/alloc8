@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import msLogo from "../../assets/ms_logo.svg";
-import logo from "../../assets/logo.png";
-
+import logo from '/logo.png'
 const HomePage = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-5 bg-gray-200">

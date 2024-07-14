@@ -18,7 +18,7 @@ body {
   max-width: 100vw;
   font-family: Poppins, sans-serif;
   overflow-x: hidden;
-  background-color: white;
+  background-color: #f1f5f9
 }
 
 html {
@@ -31,6 +31,9 @@ html {
   align-items: center;
   flex-wrap: wrap;
   gap: 15px;
+}
+input,select{
+  height: 35px;
 }
 #root {
   min-height: 100%;

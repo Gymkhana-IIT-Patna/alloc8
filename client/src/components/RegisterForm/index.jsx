@@ -31,7 +31,7 @@ export default function RegisterForm() {
   }));
 
   return (
-    <div className="max-w-2xl mx-auto p-6 rounded-[23px] md:rounded-[33px] bg-white shadow-lg">
+    <div className="max-w-2xl mx-auto p-4 rounded-[23px] md:rounded-[33px] bg-white shadow-lg">
       <h2 className="text-3xl font-bold text-[#000000] text-center mb-6">
         Register
       </h2>
@@ -64,7 +64,7 @@ export default function RegisterForm() {
             {...register("branch", {
               validate: (value) => value !== "Select" || "Branch is required",
             })}
-            className={`mt-2 border-2 border-gray-300 focus:border-blue-500 px-4 py-2 focus:outline-none w-2/3 ${
+            className={`mt-2 border-2 border-gray-300 focus:border-blue-500 px-4 focus:outline-none w-2/3 ${
               errors.branch ? "border-red-500" : ""
             }`}
           >
@@ -84,7 +84,7 @@ export default function RegisterForm() {
             {...register("placeOfLiving", {
               validate: (value) => value !== "Select" || "State is required",
             })}
-            className={`mt-2 border-2 border-gray-300 focus:border-blue-500 px-4 py-2 focus:outline-none w-2/3 ${
+            className={`mt-2 border-2 border-gray-300 focus:border-blue-500 px-4 focus:outline-none w-2/3 ${
               errors.placeOfLiving ? "border-red-500" : ""
             }`}
           >
@@ -135,12 +135,11 @@ export default function RegisterForm() {
           <label className="w-1/3">
             Sports Hobbies<span className="text-red-500">*</span>
           </label>
-          <input
+          <textarea
             {...register("sportsHobbies", {
               required: "Sports Hobbies are required",
             })}
-            type="text"
-            className={`mt-2 border-2 border-gray-300 focus:border-blue-500 px-4 py-2 focus:outline-none w-2/3 ${
+            className={`overflow-auto mt-2 border-2 border-gray-300 focus:border-blue-500 px-4 focus:outline-none w-2/3 resize-none h-[75px] ${
               errors.sportsHobbies ? "border-red-500" : ""
             }`}
           />
@@ -153,14 +152,17 @@ export default function RegisterForm() {
           <label className="w-1/3">
             Tech Hobbies<span className="text-red-500">*</span>
           </label>
-          <input
+          <textarea
             {...register("techHobbies", {
               required: "Tech Hobbies are required",
             })}
-            type="text"
-            className={`mt-2 border-2 border-gray-300 focus:border-blue-500 px-4 py-2 focus:outline-none w-2/3 ${
+            className={`overflow-auto h-[75px] resize-none mt-2 border-2 border-gray-300 focus:border-blue-500 px-4 focus:outline-none w-2/3 ${
               errors.techHobbies ? "border-red-500" : ""
             }`}
+            onInput={(e) => {
+              e.target.style.height = "35px"; // reset the height
+              e.target.style.height = `${e.target.scrollHeight}px`; // adjust height based on content
+            }}
           />
           {errors.techHobbies && (
             <p className="text-red-500">{errors.techHobbies.message}</p>
@@ -171,14 +173,17 @@ export default function RegisterForm() {
           <label className="w-1/3">
             Cultural Hobbies<span className="text-red-500">*</span>
           </label>
-          <input
+          <textarea
             {...register("culturalHobbies", {
               required: "Cultural Hobbies are required",
             })}
-            type="text"
-            className={`mt-2 border-2 border-gray-300 focus:border-blue-500 px-4 py-2 focus:outline-none w-2/3 ${
+            className={`overflow-auto h-[75px] resize-none mt-2 border-2 border-gray-300 focus:border-blue-500 px-4 focus:outline-none w-2/3 ${
               errors.culturalHobbies ? "border-red-500" : ""
             }`}
+            onInput={(e) => {
+              e.target.style.height = "35px"; // reset the height
+              e.target.style.height = `${e.target.scrollHeight}px`; // adjust height based on content
+            }}
           />
           {errors.culturalHobbies && (
             <p className="text-red-500">{errors.culturalHobbies.message}</p>
@@ -195,7 +200,7 @@ export default function RegisterForm() {
             {...register("nature", {
               validate: (value) => value !== "Select" || "Nature is required",
             })}
-            className={`mt-2 border-2 border-gray-300 focus:border-blue-500 px-4 py-2 focus:outline-none w-2/3 ${
+            className={`mt-2 border-2 border-gray-300 focus:border-blue-500 px-4 focus:outline-none w-2/3 ${
               errors.nature ? "border-red-500" : ""
             }`}
           >
@@ -216,7 +221,7 @@ export default function RegisterForm() {
               validate: (value) =>
                 value !== "Select" || "Future Interests are required",
             })}
-            className={`mt-2 border-2 border-gray-300 focus:border-blue-500 px-4 py-2 focus:outline-none w-2/3 ${
+            className={`mt-2 border-2 border-gray-300 focus:border-blue-500 px-4 focus:outline-none w-2/3 ${
               errors.futureInterests ? "border-red-500" : ""
             }`}
           >
@@ -237,7 +242,7 @@ export default function RegisterForm() {
               validate: (value) =>
                 value !== "Select" || "Sleep Schedule is required",
             })}
-            className={`mt-2 border-2 border-gray-300 focus:border-blue-500 px-4 py-2 focus:outline-none w-2/3 ${
+            className={`mt-2 border-2 border-gray-300 focus:border-blue-500 px-4 focus:outline-none w-2/3 ${
               errors.sleep ? "border-red-500" : ""
             }`}
           >
