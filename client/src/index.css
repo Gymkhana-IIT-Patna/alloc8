@@ -31,3 +31,6 @@ html {
   flex-wrap: wrap;
   gap: 15px;
 }
+input,select{
+  height: 35px;
+}
