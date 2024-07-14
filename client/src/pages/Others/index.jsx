@@ -58,10 +58,10 @@ const StepperForm = ({
   activeStep,
 }) => {
   return (
-    <div style={style}>
+    <div style={style} className="bg-[#f1f5f9]">
       <form
         name={name}
-        className="flexbox max-w-[700px] m-auto my-10 bg-slate-100 p-5 sm:p-20 rounded-xl"
+        className="flexbox max-w-[700px] m-auto my-10 bg-gray-50 shadow-lg p-5 sm:p-20 rounded-xl"
         style={{
           justifyContent: "flex-start",
           alignItems: "flex-start",
@@ -204,7 +204,7 @@ const Hostel = ({ data, onNext, onPrev, activeStep }) => {
           return (
             <div key={hostel} className="w-full ">
               <Label htmlFor={hostel} className="text-lg">
-                <div className="flex flex-wrap items-center space-x-2 px-10 py-16 bg-slate-200 rounded-lg ">
+                <div className="flex flex-wrap items-center space-x-2 px-10 py-16 bg-[#dbedfc] shadow-lg rounded-lg ">
                   <RadioGroupItem value={hostel} id={hostel} />
 
                   <span
@@ -421,9 +421,9 @@ const OthersRoomAllocPage = () => {
     }
   };
   return (
-    <div className="bg-white h-full w-full">
+    <div className="bg-[#f1f5f9] h-full w-full">
       <Header></Header>
-      <div style={{ fontFamily: "sans-serif" }}>
+      <div style={{ fontFamily: "sans-serif" }} className="bg-[#f1f5f9]">
         <Stepper
           steps={steps}
           activeStep={activeStep}
