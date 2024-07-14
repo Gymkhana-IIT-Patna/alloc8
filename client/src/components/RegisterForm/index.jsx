@@ -1,9 +1,9 @@
-import { useForm, Controller } from 'react-hook-form';
-import { useNavigate } from 'react-router';
-import data from '@/data/formoptions.json';
-import Options from '../FormOptions';
-import Select from 'react-select';
-import { Button } from '../ui/button';
+import { useForm, Controller } from "react-hook-form";
+import { useNavigate } from "react-router";
+import data from "@/data/formoptions.json";
+import Options from "../FormOptions";
+import Select from "react-select";
+import { Button } from "../ui/button";
 
 export default function RegisterForm() {
   const languages = data.languages;
@@ -12,7 +12,12 @@ export default function RegisterForm() {
   const branches = data.branches;
   const nature = data.nature;
   const sleep_nature = data.sleep_nature;
-  const { register, handleSubmit, control, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm();
   const navigate = useNavigate();
 
   const onSubmit = (formData) => {
@@ -20,22 +25,34 @@ export default function RegisterForm() {
     navigate("/waiting");
   };
 
-  const languageOptions = languages.map(language => ({ value: language, label: language }));
+  const languageOptions = languages.map((language) => ({
+    value: language,
+    label: language,
+  }));
 
   return (
     <div className="max-w-2xl mx-auto p-6 rounded-[23px] md:rounded-[33px] bg-white shadow-lg">
-      <h2 className="text-3xl font-bold text-[#000000] text-center mb-6">Register</h2>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6 text-lg">
+      <h2 className="text-3xl font-bold text-[#000000] text-center mb-6">
+        Register
+      </h2>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col gap-6 text-lg"
+      >
         <div className="flex items-center justify-between gap-4">
           <label className="w-1/3">
             Roll Number<span className="text-red-500">*</span>
           </label>
           <input
-            {...register('rollnum', { required: 'Roll Number is required' })}
+            {...register("rollnum", { required: "Roll Number is required" })}
             type="text"
-            className={`mt-2 border-2 border-gray-300 focus:border-blue-500 px-4 py-2 focus:outline-none w-2/3 ${errors.rollnum ? 'border-red-500' : ''}`}
+            className={`mt-2 border-2 border-gray-300 focus:border-blue-500 px-4 py-2 focus:outline-none w-2/3 ${
+              errors.rollnum ? "border-red-500" : ""
+            }`}
           />
-          {errors.rollnum && <p className="text-red-500">{errors.rollnum.message}</p>}
+          {errors.rollnum && (
+            <p className="text-red-500">{errors.rollnum.message}</p>
+          )}
         </div>
 
         <div className="flex items-center justify-between gap-4">
@@ -44,12 +61,18 @@ export default function RegisterForm() {
           </label>
           <select
             defaultValue="Select"
-            {...register('branch', { validate: value => value !== "Select" || 'Branch is required' })}
-            className={`mt-2 border-2 border-gray-300 focus:border-blue-500 px-4 py-2 focus:outline-none w-2/3 ${errors.branch ? 'border-red-500' : ''}`}
+            {...register("branch", {
+              validate: (value) => value !== "Select" || "Branch is required",
+            })}
+            className={`mt-2 border-2 border-gray-300 focus:border-blue-500 px-4 py-2 focus:outline-none w-2/3 ${
+              errors.branch ? "border-red-500" : ""
+            }`}
           >
             <Options array={branches} />
           </select>
-          {errors.branch && <p className="text-red-500">{errors.branch.message}</p>}
+          {errors.branch && (
+            <p className="text-red-500">{errors.branch.message}</p>
+          )}
         </div>
 
         <div className="flex items-center justify-between gap-4">
@@ -58,12 +81,18 @@ export default function RegisterForm() {
           </label>
           <select
             defaultValue="Select"
-            {...register('placeOfLiving', { validate: value => value !== "Select" || 'State is required' })}
-            className={`mt-2 border-2 border-gray-300 focus:border-blue-500 px-4 py-2 focus:outline-none w-2/3 ${errors.placeOfLiving ? 'border-red-500' : ''}`}
+            {...register("placeOfLiving", {
+              validate: (value) => value !== "Select" || "State is required",
+            })}
+            className={`mt-2 border-2 border-gray-300 focus:border-blue-500 px-4 py-2 focus:outline-none w-2/3 ${
+              errors.placeOfLiving ? "border-red-500" : ""
+            }`}
           >
             <Options array={places} />
           </select>
-          {errors.placeOfLiving && <p className="text-red-500">{errors.placeOfLiving.message}</p>}
+          {errors.placeOfLiving && (
+            <p className="text-red-500">{errors.placeOfLiving.message}</p>
+          )}
         </div>
 
         <div className="flex items-center justify-between gap-4">
@@ -75,21 +104,30 @@ export default function RegisterForm() {
               name="motherTongue"
               control={control}
               defaultValue={[]}
-              rules={{ validate: value => value.length > 0 || 'At least one language must be selected' }}
+              rules={{
+                validate: (value) =>
+                  value.length > 0 || "At least one language must be selected",
+              }}
               render={({ field }) => (
                 <Select
                   {...field}
                   isMulti
                   options={languageOptions}
-                  className={`mt-2 ${errors.motherTongue ? 'border-red-500' : 'border-gray-300'} focus:border-blue-500`}
+                  className={`mt-2 ${
+                    errors.motherTongue ? "border-red-500" : "border-gray-300"
+                  } focus:border-blue-500`}
                   classNamePrefix="select"
                   placeholder="Select languages"
-                  onChange={(selectedOptions) => field.onChange(selectedOptions)}
+                  onChange={(selectedOptions) =>
+                    field.onChange(selectedOptions)
+                  }
                   value={field.value}
                 />
               )}
             />
-            {errors.motherTongue && <p className="text-red-500">{errors.motherTongue.message}</p>}
+            {errors.motherTongue && (
+              <p className="text-red-500">{errors.motherTongue.message}</p>
+            )}
           </div>
         </div>
 
@@ -98,11 +136,17 @@ export default function RegisterForm() {
             Sports Hobbies<span className="text-red-500">*</span>
           </label>
           <input
-            {...register('sportsHobbies', { required: 'Sports Hobbies are required' })}
+            {...register("sportsHobbies", {
+              required: "Sports Hobbies are required",
+            })}
             type="text"
-            className={`mt-2 border-2 border-gray-300 focus:border-blue-500 px-4 py-2 focus:outline-none w-2/3 ${errors.sportsHobbies ? 'border-red-500' : ''}`}
+            className={`mt-2 border-2 border-gray-300 focus:border-blue-500 px-4 py-2 focus:outline-none w-2/3 ${
+              errors.sportsHobbies ? "border-red-500" : ""
+            }`}
           />
-          {errors.sportsHobbies && <p className="text-red-500">{errors.sportsHobbies.message}</p>}
+          {errors.sportsHobbies && (
+            <p className="text-red-500">{errors.sportsHobbies.message}</p>
+          )}
         </div>
 
         <div className="flex items-center justify-between gap-4">
@@ -110,11 +154,17 @@ export default function RegisterForm() {
             Tech Hobbies<span className="text-red-500">*</span>
           </label>
           <input
-            {...register('techHobbies', { required: 'Tech Hobbies are required' })}
+            {...register("techHobbies", {
+              required: "Tech Hobbies are required",
+            })}
             type="text"
-            className={`mt-2 border-2 border-gray-300 focus:border-blue-500 px-4 py-2 focus:outline-none w-2/3 ${errors.techHobbies ? 'border-red-500' : ''}`}
+            className={`mt-2 border-2 border-gray-300 focus:border-blue-500 px-4 py-2 focus:outline-none w-2/3 ${
+              errors.techHobbies ? "border-red-500" : ""
+            }`}
           />
-          {errors.techHobbies && <p className="text-red-500">{errors.techHobbies.message}</p>}
+          {errors.techHobbies && (
+            <p className="text-red-500">{errors.techHobbies.message}</p>
+          )}
         </div>
 
         <div className="flex items-center justify-between gap-4">
@@ -122,25 +172,38 @@ export default function RegisterForm() {
             Cultural Hobbies<span className="text-red-500">*</span>
           </label>
           <input
-            {...register('culturalHobbies', { required: 'Cultural Hobbies are required' })}
+            {...register("culturalHobbies", {
+              required: "Cultural Hobbies are required",
+            })}
             type="text"
-            className={`mt-2 border-2 border-gray-300 focus:border-blue-500 px-4 py-2 focus:outline-none w-2/3 ${errors.culturalHobbies ? 'border-red-500' : ''}`}
+            className={`mt-2 border-2 border-gray-300 focus:border-blue-500 px-4 py-2 focus:outline-none w-2/3 ${
+              errors.culturalHobbies ? "border-red-500" : ""
+            }`}
           />
-          {errors.culturalHobbies && <p className="text-red-500">{errors.culturalHobbies.message}</p>}
+          {errors.culturalHobbies && (
+            <p className="text-red-500">{errors.culturalHobbies.message}</p>
+          )}
         </div>
 
         <div className="flex items-center justify-between gap-4">
           <label className="w-1/3">
-            Your Nature (Introvert / Extrovert)<span className="text-red-500">*</span>
+            Your Nature (Introvert / Extrovert)
+            <span className="text-red-500">*</span>
           </label>
           <select
             defaultValue="Select"
-            {...register('nature', { validate: value => value !== "Select" || 'Nature is required' })}
-            className={`mt-2 border-2 border-gray-300 focus:border-blue-500 px-4 py-2 focus:outline-none w-2/3 ${errors.nature ? 'border-red-500' : ''}`}
+            {...register("nature", {
+              validate: (value) => value !== "Select" || "Nature is required",
+            })}
+            className={`mt-2 border-2 border-gray-300 focus:border-blue-500 px-4 py-2 focus:outline-none w-2/3 ${
+              errors.nature ? "border-red-500" : ""
+            }`}
           >
             <Options array={nature} />
           </select>
-          {errors.nature && <p className="text-red-500">{errors.nature.message}</p>}
+          {errors.nature && (
+            <p className="text-red-500">{errors.nature.message}</p>
+          )}
         </div>
 
         <div className="flex items-center justify-between gap-4">
@@ -149,12 +212,19 @@ export default function RegisterForm() {
           </label>
           <select
             defaultValue="Select"
-            {...register('futureInterests', { validate: value => value !== "Select" || 'Future Interests are required' })}
-            className={`mt-2 border-2 border-gray-300 focus:border-blue-500 px-4 py-2 focus:outline-none w-2/3 ${errors.futureInterests ? 'border-red-500' : ''}`}
+            {...register("futureInterests", {
+              validate: (value) =>
+                value !== "Select" || "Future Interests are required",
+            })}
+            className={`mt-2 border-2 border-gray-300 focus:border-blue-500 px-4 py-2 focus:outline-none w-2/3 ${
+              errors.futureInterests ? "border-red-500" : ""
+            }`}
           >
             <Options array={futureinterests} />
           </select>
-          {errors.futureInterests && <p className="text-red-500">{errors.futureInterests.message}</p>}
+          {errors.futureInterests && (
+            <p className="text-red-500">{errors.futureInterests.message}</p>
+          )}
         </div>
 
         <div className="flex items-center justify-between gap-4">
@@ -163,12 +233,19 @@ export default function RegisterForm() {
           </label>
           <select
             defaultValue="Select"
-            {...register('sleep', { validate: value => value !== "Select" || 'Sleep Schedule is required' })}
-            className={`mt-2 border-2 border-gray-300 focus:border-blue-500 px-4 py-2 focus:outline-none w-2/3 ${errors.sleep ? 'border-red-500' : ''}`}
+            {...register("sleep", {
+              validate: (value) =>
+                value !== "Select" || "Sleep Schedule is required",
+            })}
+            className={`mt-2 border-2 border-gray-300 focus:border-blue-500 px-4 py-2 focus:outline-none w-2/3 ${
+              errors.sleep ? "border-red-500" : ""
+            }`}
           >
             <Options array={sleep_nature} />
           </select>
-          {errors.sleep && <p className="text-red-500">{errors.sleep.message}</p>}
+          {errors.sleep && (
+            <p className="text-red-500">{errors.sleep.message}</p>
+          )}
         </div>
 
         <Button

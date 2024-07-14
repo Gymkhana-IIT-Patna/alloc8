@@ -61,7 +61,7 @@ const StepperForm = ({
     <div style={style}>
       <form
         name={name}
-        className="flexbox max-w-[700px] m-auto my-10 bg-slate-100 p-5 sm:p-20 rounded-xl"
+        className="flexbox max-w-[700px] m-auto my-10 bg-slate-100 p-10 sm:p-20 rounded-xl"
         style={{
           justifyContent: "flex-start",
           alignItems: "flex-start",
@@ -430,7 +430,7 @@ const OthersRoomAllocPage = () => {
           defaultTitleColor="#000"
         />
       </div>
-      {getComponent()}
+      <div className="px-5">{getComponent()}</div>
     </div>
   );
 };
