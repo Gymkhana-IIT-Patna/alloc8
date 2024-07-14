@@ -18,8 +18,9 @@ body {
   max-width: 100vw;
   font-family: Poppins, sans-serif;
   overflow-x: hidden;
-  background-color: #F1F5F9;
+  background-color: white;
 }
+
 html {
   height: 100%;
   overflow: visible;
@@ -30,4 +31,10 @@ html {
   align-items: center;
   flex-wrap: wrap;
   gap: 15px;
+}
+#root {
+  min-height: 100%;
+  height: max-content;
+  width: 100%;
+  padding-bottom: 3em;
 }
