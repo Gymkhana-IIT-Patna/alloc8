@@ -1,8 +1,10 @@
 import express from "express";
 import cors from "cors";
 import { PrismaClient } from "@prisma/client";
-const fresherRoutes = require('./routes/fresherRoutes');
-const nonfresherRoutes = require('./routes/nonfresherRoutes');
+import fresherRoutes from "./routes/fresherRoutes.js";
+import nonfresherRoutes from "./routes/nonfresherRoutes.js";
+// const fresherRoutes = require('./routes/fresherRoutes');
+// const nonfresherRoutes = require('./routes/nonfresherRoutes');
 const prisma = new PrismaClient();
 
 // async function main() {

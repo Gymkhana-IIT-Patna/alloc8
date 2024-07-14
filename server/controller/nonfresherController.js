@@ -1,5 +1,5 @@
-const Redis = require("ioredis");
-const { PrismaClient } = require("@prisma/client");
+import Redis from "ioredis"
+import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 const redis = new Redis();
 
@@ -113,7 +113,7 @@ async function roomBooking(req, res) {
   }
 }
 
-module.exports = {
+export default {
   showDetails,
   getRoom,
   roomBooking,
