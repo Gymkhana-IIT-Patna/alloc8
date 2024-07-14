@@ -1,0 +1,44 @@
+batch,gender,hostel,occupancy,Floors,Rooms,NumRoomsOnFloor,disabled
+BTech21,male,Kalam A,Single,"0,1,2,3,4,5,6,7",All,36,8E
+BTech21,male,Kalam B,Single,"1,2,3,4,5,6,7",All,21,(101To109)
+BTech22,male,Kalam C,Double,"1,2,3,4,5,6,7",All,21,
+BTech22,male,Kalam D,Double,"0,1,2",(201 To 203),36,8E
+BTech23,male,Aryabhatta A,Double,"0,1,2,3,4,5,6,7",(003 To 028) (101 To 132) (201 To 232) (301 To 332) (401 To 432) (501 To 528) (601 To 628) (701 To 724),,
+BTech23,male,Aryabhatta B,Double,"1,2",(101 To 132) (201 To 212),,
+MSc23,male,Aryabhatta B,Double,"6,7",(701 To 728)(601 To 603),,
+MTech23,male,Kalam D,Double,"0,1,2,3,4,5,6,7",(204 To 236),36,8E
+PhD14,male,Kalam D,Single,"0,1,2,3,4,5,6,7",(204 To 236),36,8E
+PhD16,male,Kalam D,Single,"0,1,2,3,4,5,6,7",(204 To 236),36,8E
+PhD17,male,Kalam D,Single,"0,1,2,3,4,5,6,7",(204 To 236),36,8E
+PhD18,male,Kalam D,Single,"0,1,2,3,4,5,6,7",(204 To 236),36,8E
+PhD19,male,Kalam D,Single,"0,1,2,3,4,5,6,7",(204 To 236),36,8E
+PhD20,male,Kalam D,Single,"0,1,2,3,4,5,6,7",(204 To 236),36,8E
+PhD21,male,Aryabhatta B ,Single,"2,3,4",(213 To 222)(301 To 332)(401 To 432),,
+PhD22,male,Aryabhatta B ,Double,"2,5",(501 To 528)(223 To 228),,
+PhD23,male,Aryabhatta B ,Double,6,(604 To 626),,
+BTech21,female,Asima C,Double,"0,1,2,3,4,5,6,7",All,36,
+BTech21,female,Asima D,Double,"0,1,2,3,4,5,6,7",All,36,
+BTech22,female,Asima B,Double,"0,1,2,3,4,5,6,7",All,36,
+BTech22,female,Asima C,Double,"0,1,2,3,4,5,6,7",All,36,
+BTech22,female,Asima D,Double,"0,1,2,3,4,5,6,7",All,36,
+BTech23,female,Asima A,Triple,"0,1,2,3,4,5,6,7",All,36,
+BTech23,female,Asima B,Triple,"0,1,2,3,4,5,6,7",All,36,
+MSc23,female,Aryabhatta C,Double,"0,1,2,3,4,5,6,7",All,36,
+MTech23,female,Aryabhatta C,Double,"0,1,2,3,4,5,6,7",All,36,
+PhD17,female,Aryabhatta C,Single,"0,1,2,3,4,5,6,7",All,36,
+PhD18,female,Aryabhatta C,Single,"0,1,2,3,4,5,6,7",All,36,
+PhD19,female,Aryabhatta C,Single,"0,1,2,3,4,5,6,7",All,36,
+PhD20,female,Aryabhatta C,Single,"0,1,2,3,4,5,6,7",All,36,
+PhD21,female,Asima A,Double,"0,1,2,3,4,5,6,7",All,36,
+PhD21,female,Asima B,Double,"0,1,2,3,4,5,6,7",All,36,
+PhD21,female,Asima C,Double,"0,1,2,3,4,5,6,7",All,36,
+PhD21,female,Asima D,Double,"0,1,2,3,4,5,6,7",All,36,
+PhD22,female,Asima A,Double,"0,1,2,3,4,5,6,7",All,36,
+PhD22,female,Asima B,Double,"0,1,2,3,4,5,6,7",All,36,
+PhD22,female,Asima C,Double,"0,1,2,3,4,5,6,7",All,36,
+PhD22,female,Asima D,Double,"0,1,2,3,4,5,6,7",All,36,
+PhD23,female,Asima A,Double,"0,1,2,3,4,5,6,7",All,36,
+PhD23,female,Asima B,Double,"0,1,2,3,4,5,6,7",All,36,
+PhD23,female,Asima C,Double,"0,1,2,3,4,5,6,7",All,36,
+PhD23,female,Asima D,Double,"0,1,2,3,4,5,6,7",All,36,
+JRF,any,Aryabhatta D,Single,0,(001 To 028),,
