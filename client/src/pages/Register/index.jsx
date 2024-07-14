@@ -32,16 +32,15 @@
 
 // export default Register;
 
-
 import Header from "@/components/Header";
 import Registerform from "@/components/RegisterForm";
 import StudentLoginImage from "@/assets/StudentLogin.svg";
 
 function Hero() {
   return (
-    <div className="flex gap-5 justify-center lg:justify-evenly p-3 sm:p-10 items-center">
+    <div className="flex gap-5 justify-center lg:justify-evenly p-5 sm:p-10 items-center">
       <Registerform />
-      <div className="xl:block hidden">
+      <div className="xl:block hidden translate-y-[-20%]">
         <img
           className="lg:block hidden"
           src={StudentLoginImage}

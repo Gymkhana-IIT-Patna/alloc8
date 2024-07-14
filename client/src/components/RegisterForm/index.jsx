@@ -4,6 +4,7 @@ import data from "@/data/formoptions.json";
 import Options from "../FormOptions";
 import Select from "react-select";
 import { Button } from "../ui/button";
+import "./index.css";
 
 export default function RegisterForm() {
   const languages = data.languages;
@@ -31,15 +32,15 @@ export default function RegisterForm() {
   }));
 
   return (
-    <div className="max-w-2xl mx-auto p-4 rounded-[23px] md:rounded-[33px] bg-white shadow-lg">
-      <h2 className="text-3xl font-bold text-[#000000] text-center mb-6">
+    <div className="max-w-2xl mx-auto px-10 pt-[3em] pb-[5em] rounded-[23px] md:rounded-[33px] bg-white shadow-lg">
+      <h2 className="text-4xl font-medium text-[#000000] text-center mb-[1em]">
         Register
       </h2>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-6 text-lg"
       >
-        <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center justify-between gap-4 input-container">
           <label className="w-1/3">
             Roll Number<span className="text-red-500">*</span>
           </label>
@@ -55,7 +56,7 @@ export default function RegisterForm() {
           )}
         </div>
 
-        <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center justify-between gap-4 input-container">
           <label className="w-1/3">
             Branch<span className="text-red-500">*</span>
           </label>
@@ -75,7 +76,7 @@ export default function RegisterForm() {
           )}
         </div>
 
-        <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center justify-between gap-4 input-container">
           <label className="w-1/3">
             State<span className="text-red-500">*</span>
           </label>
@@ -95,11 +96,11 @@ export default function RegisterForm() {
           )}
         </div>
 
-        <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center justify-between gap-4 input-container">
           <label className="w-1/3">
             Languages Spoken<span className="text-red-500">*</span>
           </label>
-          <div className="w-2/3">
+          <div className="w-2/3 input-container">
             <Controller
               name="motherTongue"
               control={control}
@@ -113,7 +114,7 @@ export default function RegisterForm() {
                   {...field}
                   isMulti
                   options={languageOptions}
-                  className={`mt-2 ${
+                  className={`multiselect mt-2 ${
                     errors.motherTongue ? "border-red-500" : "border-gray-300"
                   } focus:border-blue-500`}
                   classNamePrefix="select"
@@ -131,7 +132,7 @@ export default function RegisterForm() {
           </div>
         </div>
 
-        <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center justify-between gap-4 input-container">
           <label className="w-1/3">
             Sports Hobbies<span className="text-red-500">*</span>
           </label>
@@ -148,7 +149,7 @@ export default function RegisterForm() {
           )}
         </div>
 
-        <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center justify-between gap-4 input-container">
           <label className="w-1/3">
             Tech Hobbies<span className="text-red-500">*</span>
           </label>
@@ -169,7 +170,7 @@ export default function RegisterForm() {
           )}
         </div>
 
-        <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center justify-between gap-4 input-container">
           <label className="w-1/3">
             Cultural Hobbies<span className="text-red-500">*</span>
           </label>
@@ -190,7 +191,7 @@ export default function RegisterForm() {
           )}
         </div>
 
-        <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center justify-between gap-4 input-container">
           <label className="w-1/3">
             Your Nature (Introvert / Extrovert)
             <span className="text-red-500">*</span>
@@ -211,7 +212,7 @@ export default function RegisterForm() {
           )}
         </div>
 
-        <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center justify-between gap-4 input-container">
           <label className="w-1/3">
             Future Interests<span className="text-red-500">*</span>
           </label>
@@ -232,7 +233,7 @@ export default function RegisterForm() {
           )}
         </div>
 
-        <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center justify-between gap-4 input-container">
           <label className="w-1/3">
             Sleep Schedule<span className="text-red-500">*</span>
           </label>

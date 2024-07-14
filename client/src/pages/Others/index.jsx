@@ -61,7 +61,7 @@ const StepperForm = ({
     <div style={style} className="bg-[#f1f5f9]">
       <form
         name={name}
-        className="flexbox max-w-[700px] m-auto my-10 bg-gray-50 shadow-lg p-5 sm:p-20 rounded-xl"
+        className="flexbox max-w-[700px] m-auto my-10 bg-gray-50 shadow-lg p-10 sm:p-20 rounded-xl"
         style={{
           justifyContent: "flex-start",
           alignItems: "flex-start",
@@ -204,7 +204,7 @@ const Hostel = ({ data, onNext, onPrev, activeStep }) => {
           return (
             <div key={hostel} className="w-full ">
               <Label htmlFor={hostel} className="text-lg">
-                <div className="flex flex-wrap items-center space-x-2 px-10 py-16 bg-[#dbedfc] shadow-lg rounded-lg ">
+                <div className="flex flex-wrap items-center space-x-2 px-10 py-16 bg-slate-200 rounded-lg ">
                   <RadioGroupItem value={hostel} id={hostel} />
 
                   <span
@@ -333,7 +333,7 @@ const FloorAndRoom = ({ onNext, onPrev, activeStep, data, hostel }) => {
             return (
               <Button
                 key={floor + room}
-                className={`${getRoomStatus()} w-[50px] bg-blue-100 text-blue-700 border-blue-500 border-[1px] hover:bg-blue-500 hover:text-blue-50`}
+                className={`${getRoomStatus()} w-[50px] bg-blue-100 text-blue-700 border-blue-300 border-[1px] hover:bg-blue-500 hover:text-blue-50`}
               >
                 {floor + room.toString().padStart(2, "0")}
               </Button>
@@ -430,7 +430,7 @@ const OthersRoomAllocPage = () => {
           defaultTitleColor="#000"
         />
       </div>
-      {getComponent()}
+      <div className="px-5">{getComponent()}</div>
     </div>
   );
 };
