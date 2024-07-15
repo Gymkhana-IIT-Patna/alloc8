@@ -275,15 +275,61 @@ const Hostel = ({ data, onNext, onPrev, activeStep }) => {
 //     </StepperForm>
 //   );
 // };
-const FloorAndRoom = ({ onNext, onPrev, activeStep, data, hostel }) => {
+const FloorAndRoom = ({
+  onNext,
+  onPrev,
+  activeStep,
+  data,
+  hostel,
+  studDetails,
+}) => {
   console.log(hostel, data);
   const floors = Object.keys(data);
   const [floor, setFloor] = useState(0);
-  const [rooms, setRooms] = useState([]);
+  // const [rooms, setRooms] = useState([]);
+  const [roomData, setRoomData] = useState([]);
+  useEffect(() => {
+    if (
+      !floor ||
+      !studDetails ||
+      !studDetails.batch ||
+      !studDetails.gender ||
+      !hostel
+    ) {
+      return;
+    }
+    const postBody = {
+      batch: studDetails.batch.toLowerCase(),
+      gender: studDetails.gender.toLowerCase(),
+      hostel: hostel.toLowerCase(),
+      floor: floor.toString(),
+    };
 
-  const getRoomStatus = () => {
-    const options = ["Full", "Partial", "Available"];
-    return options[Math.random() > 0.4 ? 2 : Math.floor(Math.random() * 3)];
+    console.log(postBody);
+    fetch("/api/nonfresher/room-status", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(postBody),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setRoomData(data.rooms);
+      });
+  }, [floor]);
+  const getRoomStatus = (room) => {
+    if (room.capacity <= room.numFilled) {
+      return "Full";
+    } else {
+      if (room.numFilled == 0) {
+        return "Available";
+      } else {
+        return "Partial";
+      }
+    }
   };
 
   const handleSubmit = (e) => {
@@ -310,7 +356,7 @@ const FloorAndRoom = ({ onNext, onPrev, activeStep, data, hostel }) => {
           id="floor"
           name="floor"
           onValueChange={(value) => {
-            setRooms(data[value]);
+            // setRooms(data[value]);
             setFloor(value);
           }}
         >
@@ -329,13 +375,15 @@ const FloorAndRoom = ({ onNext, onPrev, activeStep, data, hostel }) => {
         </Select>
 
         <div className="flex flex-wrap gap-3">
-          {rooms.map((room) => {
+          {roomData.map((room) => {
             return (
               <Button
-                key={floor + room}
-                className={`${getRoomStatus()} w-[50px] bg-blue-100 text-blue-700 border-blue-300 border-[1px] hover:bg-blue-500 hover:text-blue-50`}
+                key={room.roomNum}
+                className={`${getRoomStatus(
+                  room
+                )} w-[50px] bg-blue-100 text-blue-700 border-blue-300 border-[1px] hover:bg-blue-500 hover:text-blue-50`}
               >
-                {floor + room.toString().padStart(2, "0")}
+                {room.roomNum}
               </Button>
             );
           })}
@@ -348,6 +396,7 @@ const OthersRoomAllocPage = () => {
   const [available_rooms, setAvailableRooms] = useState({});
   let [activeStep, setActiveStep] = useState(0);
   const [hostel, setHostel] = useState("");
+  const [studDetails, setStudDetails] = useState({});
   // const [floor, setFloor] = useState(0);
 
   const fetchAvailableRooms = (details) => {
@@ -368,6 +417,7 @@ const OthersRoomAllocPage = () => {
               setActiveStep((a) => a - 1);
             }}
             onNext={(data) => {
+              setStudDetails(data);
               fetchAvailableRooms(data);
               setActiveStep((a) => a + 1);
             }}
@@ -408,11 +458,12 @@ const OthersRoomAllocPage = () => {
             activeStep={3}
             data={available_rooms[hostel.toLowerCase()]}
             hostel={hostel}
+            studDetails={studDetails}
             onPrev={() => {
               setActiveStep((a) => a - 1);
             }}
             onNext={(data) => {
-              console.log(hostel, floor, data);
+              // console.log(hostel, data);
             }}
           />
         );
