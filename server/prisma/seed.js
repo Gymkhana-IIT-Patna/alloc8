@@ -6,6 +6,8 @@ async function main() {}
 
 main()
   .then(async () => {
+    const data = [];
+    const ids = [];
     for (let batch in available_rooms) {
       for (let gender in available_rooms[batch]) {
         for (let hostel in available_rooms[batch][gender]) {
@@ -33,25 +35,52 @@ main()
               ) {
                 capacity = 1;
               }
+              //   console.log(
+              //     `${hostel}-${
+              //       floor.toString() + room.toString().padStart(2, "0")
+              //     }`
+              //   );
+              ids.push(
+                `${hostel}-${
+                  floor.toString() + room.toString().padStart(2, "0")
+                }-${batch}`
+              );
 
-              await prisma.rooms.create({
-                data: {
-                  roomId: `${hostel}-${
-                    floor.toString() + room.toString().padStart(2, "0")
-                  }`,
-                  hostel,
-                  floor,
-                  roomNum: floor.toString() + room.toString().padStart(2, "0"),
-                  batch,
-                  capacity,
-                  numFilled: 0,
-                },
+              data.push({
+                roomId: `${hostel}-${
+                  floor.toString() + room.toString().padStart(2, "0")
+                }-${batch}`,
+                hostel,
+                gender,
+                floor,
+                roomNum: floor.toString() + room.toString().padStart(2, "0"),
+                batch,
+                capacity,
+                numFilled: 0,
               });
             }
           }
         }
       }
     }
+
+    const findDuplicates = (arr) => {
+      let sorted_arr = arr.slice().sort(); // You can define the comparing function here.
+      // JS by default uses a crappy string compare.
+      // (we use slice to clone the array so the
+      // original array won't be modified)
+      let results = [];
+      for (let i = 0; i < sorted_arr.length - 1; i++) {
+        if (sorted_arr[i + 1] == sorted_arr[i]) {
+          results.push(sorted_arr[i]);
+        }
+      }
+      return results;
+    };
+    console.log("duplicate IDs", findDuplicates(ids));
+    const createMany = await prisma.rooms.createMany({
+      data: data,
+    });
   })
   .catch(async (e) => {
     console.error(e);
