@@ -60,7 +60,7 @@ const SuccessPage = () => {
         <div>
           Your room has been booked successfully. The details of the booked room
           are as follows -
-          <div className="p-5 text-xl font-mono border-2">
+          <div className="p-5 text-xl font-mono border-2 my-5">
             <div>
               <b>Name: </b> {getName()}
             </div>
