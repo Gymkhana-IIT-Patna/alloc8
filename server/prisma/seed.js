@@ -33,12 +33,16 @@ main()
               ) {
                 capacity = 1;
               }
-
+              console.log(
+                `${hostel}-${
+                  floor.toString() + room.toString().padStart(2, "0")
+                }`
+              );
               await prisma.rooms.create({
                 data: {
                   roomId: `${hostel}-${
                     floor.toString() + room.toString().padStart(2, "0")
-                  }`,
+                  }-${batch}`,
                   hostel,
                   floor,
                   roomNum: floor.toString() + room.toString().padStart(2, "0"),
