@@ -28,11 +28,9 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
-
 app.use("/fresher", fresherRoutes);
 app.use("/nonfresher", nonfresherRoutes);
-
-app.listen(8800, () => {
-  console.log("Connected to Backend, Cool");
+const PORT = 8800;
+app.listen(PORT, () => {
+  console.log("Connected to Backend on Port", PORT);
 });
