@@ -15,6 +15,7 @@ Whenever you update your Prisma schema, you will need to run
 
 ```bash
 npx prisma db push
+node prisma/seed.js
 ```
 
 then
