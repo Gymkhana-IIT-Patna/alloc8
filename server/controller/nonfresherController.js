@@ -54,13 +54,17 @@ async function showDetails(req, res) {
 }
 
 async function getRoom(req, res) {
-  const { batch } = req.body;
+  const { batch, gender, hostel, floor } = req.body;
+  console.log("Getting rooms for batch:", batch);
   try {
     const validRooms = await prisma.rooms.findMany({
       where: {
         AND: [
           { batch: batch },
-          { numFilled: { lt: prisma.rooms.fields.capacity } },
+          { gender: gender },
+          { hostel: hostel },
+          { floor: floor },
+          // { numFilled: { lt: prisma.rooms.fields.capacity } },
         ],
       },
     });

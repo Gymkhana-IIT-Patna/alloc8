@@ -15,7 +15,6 @@ model rooms {
   roomNum String
   capacity Int
   numFilled Int
-  scope String
   batch String
 }
 
