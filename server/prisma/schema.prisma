@@ -17,6 +17,7 @@ model rooms {
   capacity Int
   numFilled Int
   batch String
+  students String[]
 }
 
 model students{
