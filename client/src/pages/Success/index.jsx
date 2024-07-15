@@ -3,6 +3,7 @@ import Spinner from "@/components/spinner";
 import Header from "@/components/Header";
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router";
+import Footer from "@/components/Footer";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
@@ -98,6 +99,7 @@ const SuccessPage = () => {
           Download PDF
         </button>
       </div>
+      <Footer></Footer>
     </div>
   );
 };
