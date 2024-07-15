@@ -15,9 +15,9 @@ const SuccessPage = () => {
   useEffect(() => {
     fetch(
       "/api/nonfresher/allocated-details?" +
-      new URLSearchParams({
-        rollnum: getRollNumber(),
-      }).toString(),
+        new URLSearchParams({
+          rollnum: getRollNumber(),
+        }).toString(),
       {
         method: "GET",
       }
@@ -26,7 +26,7 @@ const SuccessPage = () => {
       .then((data) => {
         console.log(data);
         if (data.error) {
-          navigate("/");
+          navigate("/allotroom");
           return;
         }
         setLoading(false);
@@ -51,7 +51,10 @@ const SuccessPage = () => {
     <div className="bg-[#f1f5f9] h-full w-full">
       <Header></Header>
       <Spinner loading={loading}></Spinner>
-      <div ref={contentRef} className="p-10 max-w-[700px] m-auto bg-white mt-10 shadow-md rounded-lg">
+      <div
+        ref={contentRef}
+        className="p-10 max-w-[700px] m-auto bg-white mt-10 shadow-md rounded-lg"
+      >
         <p>Congratulations ,</p>
         <div>
           Your room has been booked successfully. The details of the booked room
