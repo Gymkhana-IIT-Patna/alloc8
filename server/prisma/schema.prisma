@@ -23,6 +23,7 @@ model rooms {
 model students{
   id String @id @default(auto()) @map("_id") @db.ObjectId
   rollnum String @unique
+  name String
   allocated Boolean
   hostel String
   roomnum String

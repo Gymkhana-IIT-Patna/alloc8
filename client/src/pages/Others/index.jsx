@@ -21,6 +21,16 @@ import {
 import { getRollNumber } from "@/lib/auth_utility";
 import { useEffect, useState } from "react";
 import hostel_data from "@/data/available_rooms.json";
+import Spinner from "@/components/spinner";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { useNavigate } from "react-router";
 
 const steps = [
   { title: "Details" },
@@ -283,12 +293,13 @@ const FloorAndRoom = ({
   hostel,
   studDetails,
 }) => {
-  console.log(hostel, data);
   const floors = Object.keys(data);
   const [floor, setFloor] = useState(0);
+  const [loading, setLoading] = useState(false);
   // const [rooms, setRooms] = useState([]);
   const [roomData, setRoomData] = useState([]);
-  useEffect(() => {
+  const navigate = useNavigate();
+  const updateRooms = () => {
     if (
       !floor ||
       !studDetails ||
@@ -306,6 +317,7 @@ const FloorAndRoom = ({
     };
 
     console.log(postBody);
+    setLoading(true);
     fetch("/api/nonfresher/room-status", {
       method: "POST",
       headers: {
@@ -316,9 +328,48 @@ const FloorAndRoom = ({
     })
       .then((res) => res.json())
       .then((data) => {
+        setLoading(false);
         console.log(data);
         setRoomData(data.rooms);
       });
+  };
+  const bookRoom = (roomId) => {
+    fetch("/api/nonfresher/room-booking", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ studentId: getRollNumber(), roomId: roomId }),
+    }).then((res) => {
+      if (res.status == 200) {
+        navigate("/success");
+      } else {
+        res.json().then((data) => alert(data.error));
+      }
+    });
+  };
+  const getStudDetail = (rollnum) => {
+    fetch(
+      "/api/nonfresher/allocated-details?" +
+        new URLSearchParams({
+          rollnum: rollnum,
+        }).toString(),
+      {
+        method: "GET",
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.error) {
+          return;
+        }
+        return data;
+      });
+  };
+  useEffect(() => {
+    updateRooms();
   }, [floor]);
   const getRoomStatus = (room) => {
     if (room.capacity <= room.numFilled) {
@@ -346,6 +397,8 @@ const FloorAndRoom = ({
         onPrev={onPrev}
         activeStep={activeStep}
       >
+        <Spinner loading={loading}></Spinner>
+
         <b className="text-xl" style={{ textTransform: "capitalize" }}>
           {hostel}
         </b>
@@ -375,7 +428,7 @@ const FloorAndRoom = ({
         </Select>
         <div className="flex flex-wrap gap-5 mb-5 flex-col sm:flex-row">
           <div className="flex  justify-start align-start">
-            <div className="w-[50px] h-[30px] bg-blue-100 border-[1px] border-blue-200"></div>
+            <div className="w-[50px] h-[30px] bg-blue-100 border-[1px] border-blue-200  hover:bg-blue-500 hover:text-blue-50"></div>
             <span className="mx-2">Available</span>
           </div>
           <div className="flex justify-center items-center">
@@ -389,15 +442,80 @@ const FloorAndRoom = ({
         </div>
         <div className="flex flex-wrap gap-3">
           {roomData.map((room) => {
-            return (
+            return room.capacity <= room.numFilled ? (
               <Button
                 key={room.roomNum}
+                onClick={() => {
+                  updateRooms();
+                  if (room.capacity <= room.numFilled) {
+                    alert("Room is full according to database");
+                    return;
+                  }
+                }}
                 className={`${getRoomStatus(
                   room
                 )} w-[50px] bg-blue-100 text-blue-700 border-blue-300 border-[1px] hover:bg-blue-500 hover:text-blue-50`}
               >
                 {room.roomNum}
               </Button>
+            ) : (
+              <Dialog key={room.roomNum}>
+                <DialogTrigger asChild>
+                  <Button
+                    onClick={() => {
+                      updateRooms();
+                      if (room.capacity <= room.numFilled) {
+                        alert("Room became full according to updated data");
+                        return;
+                      }
+                    }}
+                    className={`${getRoomStatus(
+                      room
+                    )} w-[50px] bg-blue-100 text-blue-700 border-blue-300 border-[1px] hover:bg-blue-500 hover:text-blue-50`}
+                  >
+                    {room.roomNum}
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="py-10 min-h-[300px]">
+                  <DialogHeader>
+                    <DialogTitle style={{ textTransform: "capitalize" }}>
+                      {hostel}: Room {room.roomNum}
+                    </DialogTitle>
+                    <DialogDescription className="flex h-full w-full flex-col justify-between">
+                      <div className="text-purple-700">
+                        <div className="font-semibold">Room Members: </div>
+                        {room.students.length == 0
+                          ? "Empty Until Now"
+                          : room.students.map((stud) => {
+                              return <div key={stud}>{stud}</div>;
+                            })}
+                      </div>
+                      <div className="">
+                        <b className="">Details</b>
+                        <div className="capitalize">
+                          <b>Hostel:</b> {hostel}
+                        </div>
+                        <div className="capitalize">
+                          <b>Floor:</b> {floor}
+                        </div>
+                        <div className="capitalize">
+                          <b>Room Number:</b> {room.roomNum}
+                        </div>
+                      </div>
+                      <div>
+                        <Button
+                          onClick={() => {
+                            updateRooms();
+                            bookRoom(room.roomId);
+                          }}
+                        >
+                          Book Room
+                        </Button>
+                      </div>
+                    </DialogDescription>
+                  </DialogHeader>
+                </DialogContent>
+              </Dialog>
             );
           })}
         </div>

@@ -1,9 +1,12 @@
 input,
 textarea,
-select,
 option {
   border-radius: 5px;
   padding-block: 1.1em !important;
+}
+select {
+  border-radius: 5px;
+  height: 2.9em;
 }
 @media (max-width: 500px) {
   .input-container {
