@@ -373,7 +373,20 @@ const FloorAndRoom = ({
             })}
           </SelectContent>
         </Select>
-
+        <div className="flex flex-wrap gap-5 mb-5 flex-col sm:flex-row">
+          <div className="flex  justify-start align-start">
+            <div className="w-[50px] h-[30px] bg-blue-100 border-[1px] border-blue-200"></div>
+            <span className="mx-2">Available</span>
+          </div>
+          <div className="flex justify-center items-center">
+            <div className="w-[50px] h-[30px] Partial border-[1px]"></div>
+            <span className="mx-2">Partially Full</span>
+          </div>
+          <div className="flex justify-start items-start">
+            <div className="w-[50px] h-[30px] bg-blue-100 Full border-[1px]"></div>
+            <span className="mx-2"> Full</span>
+          </div>
+        </div>
         <div className="flex flex-wrap gap-3">
           {roomData.map((room) => {
             return (
