@@ -31,6 +31,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useNavigate } from "react-router";
+import Footer from "@/components/Footer";
 
 const steps = [
   { title: "Details" },
@@ -613,6 +614,7 @@ const OthersRoomAllocPage = () => {
         />
       </div>
       <div className="px-5">{getComponent()}</div>
+      <Footer></Footer>
     </div>
   );
 };

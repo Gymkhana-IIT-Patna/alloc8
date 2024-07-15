@@ -23,7 +23,21 @@ export default function RegisterForm() {
 
   const onSubmit = (formData) => {
     console.log(formData);
-    navigate("/waiting");
+    fetch("/api/fresher/submit-details", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    }).then((res) => {
+      console.log(res);
+      if (res.status == 201) {
+        navigate("/waiting");
+      } else {
+        alert("Error in submitting the form");
+      }
+    });
   };
 
   const languageOptions = languages.map((language) => ({

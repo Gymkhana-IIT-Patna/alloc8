@@ -36,7 +36,7 @@ model students{
 model fresherDetails{
   id String @id @default(auto()) @map("_id") @db.ObjectId
   rollnum String @unique
-  motherTongue String 
+  motherTongue String[]
   placeOfLiving String 
   branch String
   sportsHobbies String 
