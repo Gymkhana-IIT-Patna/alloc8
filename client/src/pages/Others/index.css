@@ -3,10 +3,18 @@
   color: #c23d3d;
   border-color: #ff9898;
 }
+.Full:hover {
+  background-color: darkred;
+  color: white;
+}
 .Partial {
   background-color: #ffefb3;
   color: #e38d00;
   border-color: #ffc965;
+}
+.Partial:hover {
+  background-color: rgb(255, 115, 0);
+  color: white;
 }
 .Available {
 }
