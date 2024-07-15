@@ -18,6 +18,8 @@ model rooms {
   numFilled Int
   batch String
   students String[]
+  roommateCode    String? @db.String
+  codeGeneratedAt DateTime?
 }
 
 model students{
