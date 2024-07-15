@@ -10,6 +10,7 @@ datasource db {
 model rooms {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   roomId String @unique
+  gender String
   hostel String
   floor String
   roomNum String
