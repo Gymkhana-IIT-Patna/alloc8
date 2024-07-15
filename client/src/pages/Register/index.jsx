@@ -35,6 +35,7 @@
 import Header from "@/components/Header";
 import Registerform from "@/components/RegisterForm";
 import StudentLoginImage from "@/assets/StudentLogin.svg";
+import Footer from "@/components/Footer";
 
 function Hero() {
   return (
@@ -57,6 +58,7 @@ const Register = () => {
       <Header />
 
       <Hero />
+      <Footer></Footer>
     </div>
   );
 };

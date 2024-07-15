@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import msLogo from "../../assets/ms_logo.svg";
 import logo from "../../assets/logo.png";
+import Footer from "@/components/Footer";
 
 const HomePage = () => {
   return (
@@ -23,6 +24,7 @@ const HomePage = () => {
           </div>
         </form>
       </div>
+      <Footer></Footer>
     </div>
   );
 };
