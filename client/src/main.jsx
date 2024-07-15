@@ -11,6 +11,10 @@ import {
   AlottedRooms,
   Success,
 } from "./pages/index.js";
+// Outlook Auth
+import { MsalProvider } from "@azure/msal-react";
+import { PublicClientApplication } from "@azure/msal-browser";
+import { msalConfig } from "./authConfig.js";
 
 const router = createBrowserRouter([
   {
@@ -39,10 +43,16 @@ const router = createBrowserRouter([
   },
 ]);
 
+export const msalInstance = new PublicClientApplication(msalConfig);
+await msalInstance.initialize();
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <Suspense fallback={<Spinner loading={true} />}>
-      <RouterProvider router={router} />
-    </Suspense>
+    <MsalProvider instance={msalInstance}>
+      <Suspense fallback={<Spinner loading={true} />}>
+        <RouterProvider router={router} />
+      </Suspense>
+    </MsalProvider>
   </React.StrictMode>
 );
+/* vi: set et sw=2: */

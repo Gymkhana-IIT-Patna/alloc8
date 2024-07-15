@@ -5,6 +5,7 @@ import Options from "../FormOptions";
 import Select from "react-select";
 import { Button } from "../ui/button";
 import "./index.css";
+import { useMsal } from "@azure/msal-react";
 
 export default function RegisterForm() {
   const languages = data.languages;
@@ -20,23 +21,31 @@ export default function RegisterForm() {
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
+  const { accounts, instance } = useMsal();
+
+  const accessTokenRequest = {
+    account: accounts[0],
+  };
 
   const onSubmit = (formData) => {
     console.log(formData);
-    fetch("/api/fresher/submit-details", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    }).then((res) => {
-      console.log(res);
-      if (res.status == 201) {
-        navigate("/waiting");
-      } else {
-        alert("Error in submitting the form");
-      }
+    instance.acquireTokenSilent(accessTokenRequest).then((res) => {
+      fetch("/api/fresher/submit-details", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "X-Alloc8-IDToken": res.idToken,
+        },
+        body: JSON.stringify(formData),
+      }).then((res) => {
+        console.log(res);
+        if (res.status == 201) {
+          navigate("/waiting");
+        } else {
+          alert("Error in submitting the form");
+        }
+      });
     });
   };
 
@@ -278,3 +287,4 @@ export default function RegisterForm() {
     </div>
   );
 }
+/* vi: set et sw=2: */

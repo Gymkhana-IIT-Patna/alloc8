@@ -5,6 +5,10 @@ import fresherRoutes from "./routes/fresherRoutes.js";
 import nonfresherRoutes from "./routes/nonfresherRoutes.js";
 // const fresherRoutes = require('./routes/fresherRoutes');
 // const nonfresherRoutes = require('./routes/nonfresherRoutes');
+/* TODO: figure out if/how to import this instead of require - pranjal */
+const { expressjwt: jwt } = require("express-jwt");
+const jwkToPem = require("jwk-to-pem");
+
 const prisma = new PrismaClient();
 
 // async function main() {
@@ -24,7 +28,18 @@ const prisma = new PrismaClient();
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.locals.pems = [];
+fetch(
+    "https://login.microsoftonline.com/a57f7d92-038e-4d4c-8265-7cd2beb33b34/discovery/v2.0/keys"
+)
+    .then((response) => response.json())
+    .then((jwks) => jwks.keys)
+    .then((keys) => {
+        app.locals.keys = keys;
+        keys.forEach((jwk) => app.locals.pems.push(jwkToPem(jwk)));
+    });
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

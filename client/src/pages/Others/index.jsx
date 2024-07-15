@@ -32,6 +32,7 @@ import {
 } from "@/components/ui/dialog";
 import { useNavigate } from "react-router";
 import Footer from "@/components/Footer";
+import { useMsal } from "@azure/msal-react";
 
 const steps = [
   { title: "Details" },
@@ -300,6 +301,11 @@ const FloorAndRoom = ({
   // const [rooms, setRooms] = useState([]);
   const [roomData, setRoomData] = useState([]);
   const navigate = useNavigate();
+  const { accounts, instance } = useMsal();
+
+  const accessTokenRequest = {
+    account: accounts[0],
+  };
   const updateRooms = () => {
     if (
       !floor ||
@@ -319,55 +325,66 @@ const FloorAndRoom = ({
 
     console.log(postBody);
     setLoading(true);
-    fetch("/api/nonfresher/room-status", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(postBody),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setLoading(false);
-        console.log(data);
-        setRoomData(data.rooms);
-      });
+    instance.acquireTokenSilent(accessTokenRequest).then((res) => {
+      fetch("/api/nonfresher/room-status", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "X-Alloc8-IDToken": res.idToken,
+        },
+        body: JSON.stringify(postBody),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setLoading(false);
+          console.log(data);
+          setRoomData(data.rooms);
+        });
+    });
   };
   const bookRoom = (roomId) => {
-    fetch("/api/nonfresher/room-booking", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ studentId: getRollNumber(), roomId: roomId }),
-    }).then((res) => {
-      if (res.status == 200) {
-        navigate("/success");
-      } else {
-        res.json().then((data) => alert(data.error));
-      }
+    instance.acquireTokenSilent(accessTokenRequest).then((res) => {
+      fetch("/api/nonfresher/room-booking", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "X-Alloc8-IDToken": res.idToken,
+        },
+        body: JSON.stringify({ studentId: getRollNumber(), roomId: roomId }),
+      }).then((res) => {
+        if (res.status == 200) {
+          navigate("/success");
+        } else {
+          res.json().then((data) => alert(data.error));
+        }
+      });
     });
   };
   const getStudDetail = (rollnum) => {
-    fetch(
-      "/api/nonfresher/allocated-details?" +
-        new URLSearchParams({
-          rollnum: rollnum,
-        }).toString(),
-      {
-        method: "GET",
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        if (data.error) {
-          return;
+    instance.acquireTokenSilent(accessTokenRequest).then((res) => {
+      fetch(
+        "/api/nonfresher/allocated-details?" +
+          new URLSearchParams({
+            rollnum: rollnum,
+          }).toString(),
+        {
+          method: "GET",
+          headers: {
+            "X-Alloc8-IDToken": res.idToken,
+          },
         }
-        return data;
-      });
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          if (data.error) {
+            return;
+          }
+          return data;
+        });
+    });
   };
   useEffect(() => {
     updateRooms();
@@ -525,6 +542,15 @@ const FloorAndRoom = ({
   );
 };
 const OthersRoomAllocPage = () => {
+  const { accounts, instance } = useMsal();
+  const accessTokenRequest = {
+    account: accounts[0],
+  };
+  useEffect(() => {
+    instance.acquireTokenSilent(accessTokenRequest).then((res) => {
+      console.log(res);
+    });
+  }, []);
   const [available_rooms, setAvailableRooms] = useState({});
   let [activeStep, setActiveStep] = useState(0);
   const [hostel, setHostel] = useState("");
@@ -620,3 +646,4 @@ const OthersRoomAllocPage = () => {
 };
 
 export default OthersRoomAllocPage;
+/* vi: set et sw=2: */

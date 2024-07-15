@@ -6,33 +6,42 @@ import { useNavigate } from "react-router";
 import Footer from "@/components/Footer";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import { useMsal } from "@azure/msal-react";
 
 const SuccessPage = () => {
   const [loading, setLoading] = useState(true);
   const [studData, setStudData] = useState({});
   const navigate = useNavigate();
   const contentRef = useRef();
+  const { accounts, instance } = useMsal();
+
+  const accessTokenRequest = {
+    account: accounts[0],
+  };
 
   useEffect(() => {
-    fetch(
-      "/api/nonfresher/allocated-details?" +
-        new URLSearchParams({
-          rollnum: getRollNumber(),
-        }).toString(),
-      {
-        method: "GET",
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        if (data.error) {
-          navigate("/allotroom");
-          return;
+    instance.acquireTokenSilent(accessTokenRequest).then((res) => {
+      fetch(
+        "/api/nonfresher/allocated-details?" +
+          new URLSearchParams({
+            rollnum: getRollNumber(),
+          }).toString(),
+        {
+          method: "GET",
+          headers: { "X-Alloc8-IDToken": res.idToken, },
         }
-        setLoading(false);
-        setStudData(data);
-      });
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          if (data.error) {
+            navigate("/allotroom");
+            return;
+          }
+          setLoading(false);
+          setStudData(data);
+        });
+    });
   }, []);
 
   const downloadPDF = () => {
@@ -141,3 +150,4 @@ const SuccessPage = () => {
 };
 
 export default SuccessPage;
+/* vi: set et sw=2: */

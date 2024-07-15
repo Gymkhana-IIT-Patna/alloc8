@@ -2,8 +2,32 @@ import { Button } from "@/components/ui/button";
 import msLogo from "../../assets/ms_logo.svg";
 import logo from "../../assets/logo.png";
 import Footer from "@/components/Footer";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useIsAuthenticated, useMsal } from "@azure/msal-react";
 
 const HomePage = () => {
+  const navigate = useNavigate();
+  const isAuthenticated = useIsAuthenticated();
+  const { instance, accounts } = useMsal();
+  useEffect(() => {
+    if (isAuthenticated) {
+      let navigated = false;
+      let parts = accounts[0].username.split("_");
+      for (let part of parts) {
+        if (part.startsWith("24")) {
+          navigate("/Register");
+          navigated = true;
+        }
+      }
+      if (!navigated) {
+        navigate("/allotroom");
+      }
+    }
+  }, [isAuthenticated]);
+  const initializeSignIn = () => {
+    instance.loginRedirect();
+  };
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-5 bg-gray-200">
       <div className="w-full max-w-md p-10 pb-20  bg-white rounded-lg shadow-lg flex flex-col items-center border border-gray-300">
@@ -17,7 +41,7 @@ const HomePage = () => {
         </span>
         <form className="w-full">
           <div className="w-full flex justify-center items-center mt-8">
-            <Button className="flex items-center justify-center font-segoe-ui font-light text-[15px] bg-[#2f2f2f] text-white h-[45px] px-4 rounded-sm hover:bg-[#0e0202] transition duration-300 ">
+            <Button onClick={initializeSignIn} className="flex items-center justify-center font-segoe-ui font-light text-[15px] bg-[#2f2f2f] text-white h-[45px] px-4 rounded-sm hover:bg-[#0e0202] transition duration-300 ">
               <img src={msLogo} className="w-5 h-5 mr-3" alt="Microsoft" />
               Sign In with Microsoft
             </Button>
@@ -29,3 +53,4 @@ const HomePage = () => {
   );
 };
 export default HomePage;
+/* vi: set et sw=2: */
