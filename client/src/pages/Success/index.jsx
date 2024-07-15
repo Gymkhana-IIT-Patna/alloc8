@@ -52,44 +52,80 @@ const SuccessPage = () => {
     <div className="bg-[#f1f5f9] h-full w-full">
       <Header></Header>
       <Spinner loading={loading}></Spinner>
+
       <div
         ref={contentRef}
         className="p-10 max-w-[700px] m-auto bg-white mt-10 shadow-md rounded-lg"
       >
-        <p>Congratulations ,</p>
-        <div>
-          Your room has been booked successfully. The details of the booked room
-          are as follows -
-          <div className="p-5 text-xl font-mono border-2 my-5">
-            <div>
-              <b>Name: </b> {getName()}
-            </div>
-            <div>
-              <b>Roll No.: </b> {getRollNumber()}
-            </div>
-            <div>
-              <b>Hostel: </b> {studData?.hostel}
-            </div>
-            <div>
-              <b>Room No.: </b> {studData?.roomNum}
-            </div>
-            <div>
-              <b>Occupancy: </b> {studData?.occupancy}
-            </div>
-            <div>
-              <b>Roommates Until Now: </b>{" "}
-              {studData?.roommates?.map((roommate) => {
-                return (
-                  <div key={roommate.rollnum} className="px-10">
-                    {roommate.rollnum} - {roommate.name}
-                  </div>
-                );
-              })}
+        <div
+          className=""
+          style={{
+            fontFamily: "Poppins, Arial, sans-serif",
+            margin: "10px",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <img
+            src={"/gymkhana.jpg"}
+            alt="Gymkhana"
+            style={{ width: "100px", height: "auto", marginRight: "10px" }}
+          />
+          <h1
+            className="mb-0 text-xl"
+            style={{
+              fontFamily: "Poppins, Arial, sans-serif",
+              // marginBottom: "10px",
+              flexGrow: 1,
+              textAlign: "center",
+            }}
+          >
+            {"Students' Gymkhana, IIT Patna"}
+          </h1>
+          <img
+            src={"/gymkhana.jpg"}
+            alt="Gymkhana"
+            style={{ width: "100px", height: "auto", marginRight: "10px" }}
+          />
+        </div>
+        <hr />
+        <div className="pt-10">
+          <p>Congratulations ,</p>
+          <div>
+            Your room has been booked successfully. The details of the booked
+            room are as follows -
+            <div className="p-5 text-xl font-mono border-2 my-5 capitalize">
+              <div>
+                <b>Name: </b> {getName()}
+              </div>
+              <div>
+                <b>Roll No.: </b> {getRollNumber()}
+              </div>
+              <div>
+                <b>Hostel: </b> {studData?.hostel}
+              </div>
+              <div>
+                <b>Room No.: </b> {studData?.roomNum}
+              </div>
+              <div>
+                <b>Occupancy: </b> {studData?.occupancy}
+              </div>
+              <div>
+                <b>Roommates Until Now: </b>{" "}
+                {studData?.roommates?.map((roommate) => {
+                  return (
+                    <div key={roommate.rollnum} className="px-10">
+                      {roommate.rollnum} - {roommate.name}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
+
+          <div>Regards</div>
+          <div>IIT Patna</div>
         </div>
-        <div>Regards</div>
-        <div>IIT Patna</div>
       </div>
       <div className="flex justify-center mt-5">
         <button
