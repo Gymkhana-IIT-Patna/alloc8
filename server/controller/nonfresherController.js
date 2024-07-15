@@ -14,10 +14,10 @@ async function releaseLock(key) {
   await redis.del(lockKey);
 }
 
-const hostelMap = new Map();
-hostelMap.set("BTech21", "kalam");
-hostelMap.set("BTech22", "kalam");
-hostelMap.set("BTech23", "aryabhatta");
+// const hostelMap = new Map();
+// hostelMap.set("BTech21", "kalam");
+// hostelMap.set("BTech22", "kalam");
+// hostelMap.set("BTech23", "aryabhatta");
 
 async function showDetails(req, res) {
   const { rollnum } = req.query;
@@ -27,6 +27,7 @@ async function showDetails(req, res) {
     });
 
     if (student && student.allocated) {
+      console.log(student);
       const roommates = await prisma.students.findMany({
         where: {
           hostel: student.hostel,
@@ -129,14 +130,21 @@ async function roomBooking(req, res) {
     if (room.numFilled < room.capacity) {
       console.log(room);
       await prisma.$transaction(async (prisma) => {
+        let students = room.students;
+        students.push(student.rollnum + " - " + student.name);
         await prisma.rooms.update({
           where: { roomId },
-          data: { numFilled: room.numFilled + 1 },
+          data: { numFilled: room.numFilled + 1, students: students },
         });
 
         await prisma.students.update({
           where: { rollnum: studentId },
-          data: { allocated: true, roomnum: room.roomNum, room: roomId },
+          data: {
+            allocated: true,
+            roomnum: room.roomNum,
+            room: roomId,
+            hostel: room.hostel,
+          },
         });
       });
 

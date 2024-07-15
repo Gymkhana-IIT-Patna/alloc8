@@ -17,11 +17,13 @@ model rooms {
   capacity Int
   numFilled Int
   batch String
+  students String[]
 }
 
 model students{
   id String @id @default(auto()) @map("_id") @db.ObjectId
   rollnum String @unique
+  name String
   allocated Boolean
   hostel String
   roomnum String

@@ -3,7 +3,14 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Spinner from "./components/spinner.jsx";
-import { Home, WaitingPage, Others, Register, AlottedRooms } from "./pages/index.js";
+import {
+  Home,
+  WaitingPage,
+  Others,
+  Register,
+  AlottedRooms,
+  Success,
+} from "./pages/index.js";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +26,10 @@ const router = createBrowserRouter([
     element: <Others />,
   },
   {
+    path: "/success",
+    element: <Success />,
+  },
+  {
     path: "/waiting",
     element: <WaitingPage />,
   },
@@ -30,7 +41,7 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <Suspense fallback={<Spinner />}>
+    <Suspense fallback={<Spinner loading={true} />}>
       <RouterProvider router={router} />
     </Suspense>
   </React.StrictMode>

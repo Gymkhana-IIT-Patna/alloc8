@@ -57,6 +57,7 @@ main()
                 batch,
                 capacity,
                 numFilled: 0,
+                students: [],
               });
             }
           }
