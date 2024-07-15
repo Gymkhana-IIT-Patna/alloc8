@@ -1,7 +1,7 @@
 import express from "express";
 import fresherController from "../controller/fresherController.js"
 const router = express.Router();
-const jwt = require("jsonwebtoken");
+import jwt  from "jsonwebtoken";
 
 router.use(async (req, res, next) => {
     const token = req.get("X-Alloc8-IDToken");

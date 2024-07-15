@@ -2,6 +2,8 @@ import Redis from "ioredis";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 const redis = new Redis();
+//const crypto= require('crypto');
+import crypto from "crypto";
 
 async function acquireLock(key, ttl) {
   const lockKey = `lock:${key}`;
@@ -71,7 +73,7 @@ async function getRoom(req, res) {
 }
 
 async function roomBooking(req, res) {
-  const { studentId, roomId, roomMates } = req.body;
+  const { studentId, roomId, roommateCode } = req.body;
   const lockKey = `room:${roomId}`;
   const studentLockKey = `student:${studentId}`;
 
@@ -124,6 +126,24 @@ async function roomBooking(req, res) {
 
     if (room.numFilled < room.capacity) {
       console.log(room);
+      const now = new Date();
+      let generatedCode = null;
+  
+      if (room.numFilled === 0) {
+        // gen a unique code if its completely empty along with "TIME stamp" stored in db
+        generatedCode = crypto.randomBytes(4).toString('hex');
+        room.roommateCode = generatedCode;
+        room.codeGeneratedAt = now;
+      } else {
+        const codeGeneratedAt = new Date(room.codeGeneratedAt);
+        const codeExpiryTime = new Date(codeGeneratedAt.getTime() + 10 * 60000); // 10 minutes tak locked
+        if (now > codeExpiryTime) {
+          room.roommateCode = null;
+          room.codeGeneratedAt = null;
+        } else if (roommateCode !== room.roommateCode) {
+          return res.status(400).json({ error: 'Invalid roommate code' });
+        }
+      }
       await prisma.$transaction(async (prisma) => {
         await prisma.rooms.update({
           where: { roomId },

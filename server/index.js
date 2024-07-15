@@ -6,8 +6,8 @@ import nonfresherRoutes from "./routes/nonfresherRoutes.js";
 // const fresherRoutes = require('./routes/fresherRoutes');
 // const nonfresherRoutes = require('./routes/nonfresherRoutes');
 /* TODO: figure out if/how to import this instead of require - pranjal */
-const { expressjwt: jwt } = require("express-jwt");
-const jwkToPem = require("jwk-to-pem");
+import { expressjwt as jwt } from "express-jwt";
+import jwkToPem from "jwk-to-pem";
 
 const prisma = new PrismaClient();
 

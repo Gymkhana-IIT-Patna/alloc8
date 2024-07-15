@@ -343,6 +343,7 @@ const FloorAndRoom = ({
         });
     });
   };
+  const [roommateCode, setRoommateCode] = useState('');
   const bookRoom = (roomId) => {
     instance.acquireTokenSilent(accessTokenRequest).then((res) => {
       fetch("/api/nonfresher/room-booking", {
@@ -352,7 +353,7 @@ const FloorAndRoom = ({
           "Content-Type": "application/json",
           "X-Alloc8-IDToken": res.idToken,
         },
-        body: JSON.stringify({ studentId: getRollNumber(), roomId: roomId }),
+        body: JSON.stringify({ studentId: getRollNumber(), roomId: roomId ,roommateCode: roommateCode ? roommateCode : null,}),
       }).then((res) => {
         if (res.status == 200) {
           navigate("/success");
@@ -458,6 +459,15 @@ const FloorAndRoom = ({
             <span className="mx-2"> Full</span>
           </div>
         </div>
+        <div>
+        <label htmlFor="roommateCode">Roommate Code: </label>
+        <input
+          type="text"
+          id="roommateCode"
+          value={roommateCode}
+          onChange={(e) => setRoommateCode(e.target.value)}
+        />
+      </div>
         <div className="flex flex-wrap gap-3">
           {roomData.map((room) => {
             return room.capacity <= room.numFilled ? (
