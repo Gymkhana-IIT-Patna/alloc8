@@ -25,7 +25,7 @@ router.use(async (req, res, next) => {
     req.auth = jwt.verify(token, pems[i], {
       algorithms: "RS256",
       /* TODO: add these to config.json - pranjal */
-      audience: "b07ae22b-b2b4-4118-8281-5b1b91375bc4",
+      audience: "35a0637a-3118-4cc3-9180-30f6beae3a5d",
       issuer:
         "https://login.microsoftonline.com/a57f7d92-038e-4d4c-8265-7cd2beb33b34/v2.0",
     });

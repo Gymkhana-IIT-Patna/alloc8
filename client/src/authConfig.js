@@ -13,8 +13,8 @@ import { LogLevel } from "@azure/msal-browser";
 
 export const msalConfig = {
     auth: {
-        //b07ae22b-b2b4-4118-8281-5b1b91375bc4
-        clientId: "b07ae22b-b2b4-4118-8281-5b1b91375bc4",
+        //35a0637a-3118-4cc3-9180-30f6beae3a5d
+        clientId: "35a0637a-3118-4cc3-9180-30f6beae3a5d",
         authority: "https://login.microsoftonline.com/a57f7d92-038e-4d4c-8265-7cd2beb33b34",
         /* This doesn't work, probably because of react-dom-router - pranjal */
         redirectUri: "https://alloc8.in",

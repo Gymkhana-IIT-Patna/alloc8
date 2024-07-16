@@ -32,7 +32,7 @@ const app = express();
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.locals.pems = [];
 fetch(
-    "https://login.microsoftonline.com/b07ae22b-b2b4-4118-8281-5b1b91375bc4/discovery/v2.0/keys"
+    "https://login.microsoftonline.com/a57f7d92-038e-4d4c-8265-7cd2beb33b34/discovery/v2.0/keys"
 )
     .then((response) => response.json())
     .then((jwks) => jwks.keys)
