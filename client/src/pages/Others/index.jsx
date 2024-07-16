@@ -519,7 +519,11 @@ const FloorAndRoom = ({
                         className="my-5"
                         style={{
                           display:
-                            getRoomStatus(room) == "Partial" ? "block" : "none",
+                            getRoomStatus(room) == "Partial" &&
+                            room.roommateCode &&
+                            room.roommateCode.length != 0
+                              ? "block"
+                              : "none",
                         }}
                       >
                         <Label htmlFor="roommateCode">Roommate Code:</Label>
@@ -542,7 +546,9 @@ const FloorAndRoom = ({
                           }}
                           disabled={
                             (getRoomStatus(room) == "Partial" &&
-                              roommateCode.length == 0) ||
+                              roommateCode.length == 0 &&
+                              room.roommateCode &&
+                              room.roommateCode.length != 0) ||
                             getRoomStatus(room) == "Full"
                           }
                         >

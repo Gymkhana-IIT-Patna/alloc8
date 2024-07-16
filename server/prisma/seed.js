@@ -53,7 +53,7 @@ main()
                 hostel,
                 gender,
                 floor,
-                roomNum: floor.toString() + room.toString().padStart(2, "0"),
+                roomNum: room.toString().padStart(3, "0"),
                 batch,
                 capacity,
                 numFilled: 0,

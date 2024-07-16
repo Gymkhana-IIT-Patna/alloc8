@@ -134,6 +134,15 @@ const SuccessPage = () => {
                   );
                 })}
               </div>
+              {studData &&
+              studData.roommateCode &&
+              studData.roommateCode.length > 0 ? (
+                <div>
+                  <b>Roommate Code: </b> {studData?.roommateCode}
+                </div>
+              ) : (
+                <></>
+              )}
             </div>
           </div>
 

@@ -118,6 +118,10 @@ async function getRoom(req, res) {
           });
         }
       }
+
+      if (room.roommateCode) {
+        room.roommateCode = "present";
+      }
     }
     return res.status(200).json({ rooms: validRooms });
   } catch (error) {
@@ -190,7 +194,7 @@ async function roomBooking(req, res) {
       } else {
         const codeGeneratedAt = new Date(room.codeGeneratedAt);
         const codeExpiryTime = new Date(
-          codeGeneratedAt.getTime() + codeExpiryDelta
+          cwaitodeGeneratedAt.getTime() + codeExpiryDelta
         ); // 10 minutes tak locked
         if (now > codeExpiryTime) {
           room.roommateCode = "";
