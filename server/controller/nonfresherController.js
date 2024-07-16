@@ -27,6 +27,9 @@ async function showDetails(req, res) {
     const student = await prisma.students.findUnique({
       where: { rollnum: rollnum },
     });
+    const room = await prisma.rooms.findUnique({
+      where: { roomId: student.room },
+    });
     console.log(student);
     if (student && student.allocated) {
       const roommates = await prisma.students.findMany({
@@ -46,6 +49,7 @@ async function showDetails(req, res) {
         room: student.room,
         occupancy: student.occupancy,
         roommates,
+        roommateCode: room.roommateCode,
       });
     } else {
       res.status(400).json({ error: "kindly wait for allocation!" });
@@ -148,9 +152,15 @@ async function roomBooking(req, res) {
       let students = room.students;
       students.push(studentId + " - " + name);
       await prisma.$transaction(async (prisma) => {
+        let code = roommateCode || room.roommateCode;
         await prisma.rooms.update({
           where: { roomId },
-          data: { numFilled: room.numFilled + 1, students: students },
+          data: {
+            numFilled: room.numFilled + 1,
+            students: students,
+            roommateCode: code,
+            codeGeneratedAt: room.codeGeneratedAt,
+          },
         });
 
         await prisma.students.create({
