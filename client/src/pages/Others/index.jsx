@@ -124,7 +124,7 @@ const Details = ({ onNext, onPrev, activeStep }) => {
         type="text"
         id="rollno"
         name="rollno"
-        value={getRollNumber()}
+        value={getRollNumber().toUpperCase()}
         disabled={true}
       />
       <Label htmlFor="gender" className="mt-3">
@@ -343,7 +343,7 @@ const FloorAndRoom = ({
         });
     });
   };
-  const [roommateCode, setRoommateCode] = useState('');
+  const [roommateCode, setRoommateCode] = useState("");
   const bookRoom = (roomId) => {
     instance.acquireTokenSilent(accessTokenRequest).then((res) => {
       fetch("/api/nonfresher/room-booking", {
@@ -353,7 +353,11 @@ const FloorAndRoom = ({
           "Content-Type": "application/json",
           "X-Alloc8-IDToken": res.idToken,
         },
-        body: JSON.stringify({ studentId: getRollNumber(), roomId: roomId ,roommateCode: roommateCode ? roommateCode : null,}),
+        body: JSON.stringify({
+          studentId: getRollNumber(),
+          roomId: roomId,
+          roommateCode: roommateCode ? roommateCode : null,
+        }),
       }).then((res) => {
         if (res.status == 200) {
           navigate("/success");
@@ -459,43 +463,19 @@ const FloorAndRoom = ({
             <span className="mx-2"> Full</span>
           </div>
         </div>
-        <div>
-        <label htmlFor="roommateCode">Roommate Code: </label>
-        <input
-          type="text"
-          id="roommateCode"
-          value={roommateCode}
-          onChange={(e) => setRoommateCode(e.target.value)}
-        />
-      </div>
+        <div></div>
         <div className="flex flex-wrap gap-3">
           {roomData.map((room) => {
-            return room.capacity <= room.numFilled ? (
-              <Button
-                key={room.roomNum}
-                onClick={() => {
-                  updateRooms();
-                  if (room.capacity <= room.numFilled) {
-                    alert("Room is full according to database");
-                    return;
-                  }
-                }}
-                className={`${getRoomStatus(
-                  room
-                )} w-[50px] bg-blue-100 text-blue-700 border-blue-300 border-[1px] hover:bg-blue-500 hover:text-blue-50`}
-              >
-                {room.roomNum}
-              </Button>
-            ) : (
+            return (
               <Dialog key={room.roomNum}>
                 <DialogTrigger asChild>
                   <Button
                     onClick={() => {
                       updateRooms();
-                      if (room.capacity <= room.numFilled) {
-                        alert("Room became full according to updated data");
-                        return;
-                      }
+                      // if (room.capacity <= room.numFilled) {
+                      //   alert("Room became full according to updated data");
+                      //   return;
+                      // }
                     }}
                     className={`${getRoomStatus(
                       room
@@ -510,14 +490,6 @@ const FloorAndRoom = ({
                       {hostel}: Room {room.roomNum}
                     </DialogTitle>
                     <DialogDescription className="flex h-full w-full flex-col justify-between">
-                      <div className="text-purple-700">
-                        <div className="font-semibold">Room Members: </div>
-                        {room.students.length == 0
-                          ? "Empty Until Now"
-                          : room.students.map((stud) => {
-                              return <div key={stud}>{stud}</div>;
-                            })}
-                      </div>
                       <div className="">
                         <b className="">Details</b>
                         <div className="capitalize">
@@ -530,12 +502,44 @@ const FloorAndRoom = ({
                           <b>Room Number:</b> {room.roomNum}
                         </div>
                       </div>
+                      <div className="text-purple-700 my-5">
+                        <div className="font-semibold">Room Members: </div>
+                        {room.students.length == 0
+                          ? "Empty Until Now"
+                          : room.students.map((stud) => {
+                              return <div key={stud}>{stud}</div>;
+                            })}
+                      </div>
+                      <div
+                        className="my-5"
+                        style={{
+                          display:
+                            getRoomStatus(room) == "Partial" ? "block" : "none",
+                        }}
+                      >
+                        <Label htmlFor="roommateCode">Roommate Code:</Label>
+                        <Input
+                          type="text"
+                          id="roommateCode"
+                          value={roommateCode}
+                          onChange={(e) => setRoommateCode(e.target.value)}
+                        />
+                        <div className="mt-3">
+                          (You need to get this code from current room members
+                          to get this room)
+                        </div>
+                      </div>
                       <div>
                         <Button
                           onClick={() => {
                             updateRooms();
                             bookRoom(room.roomId);
                           }}
+                          disabled={
+                            (getRoomStatus(room) == "Partial" &&
+                              roommateCode.length == 0) ||
+                            getRoomStatus(room) == "Full"
+                          }
                         >
                           Book Room
                         </Button>

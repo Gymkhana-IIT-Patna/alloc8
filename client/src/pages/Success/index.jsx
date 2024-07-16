@@ -28,7 +28,8 @@ const SuccessPage = () => {
           }).toString(),
         {
           method: "GET",
-          headers: { "X-Alloc8-IDToken": res.idToken, },
+          headers: { "X-Alloc8-IDToken": res.idToken },
+          credentials: "include",
         }
       )
         .then((res) => res.json())
