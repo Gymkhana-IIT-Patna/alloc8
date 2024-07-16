@@ -13,12 +13,12 @@ import { LogLevel } from "@azure/msal-browser";
 
 export const msalConfig = {
     auth: {
-        //a9a14467-3eb9-4499-9c63-e7fd24d90985
-        clientId: "a9a14467-3eb9-4499-9c63-e7fd24d90985",
+        //b07ae22b-b2b4-4118-8281-5b1b91375bc4
+        clientId: "b07ae22b-b2b4-4118-8281-5b1b91375bc4",
         authority: "https://login.microsoftonline.com/a57f7d92-038e-4d4c-8265-7cd2beb33b34",
         /* This doesn't work, probably because of react-dom-router - pranjal */
-        redirectUri: "http://localhost:5173/",
-        postLogoutRedirectUri: "http://localhost:5173",
+        redirectUri: "https://alloc8.in",
+        postLogoutRedirectUri: "http://alloc8.in",
     },
     cache: {
         cacheLocation: "sessionStorage", // This configures where your cache will be stored
