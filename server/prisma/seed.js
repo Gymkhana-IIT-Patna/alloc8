@@ -58,6 +58,7 @@ main()
                 capacity,
                 numFilled: 0,
                 students: [],
+                roommateCode: "",
               });
             }
           }

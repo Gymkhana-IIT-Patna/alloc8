@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 const redis = new Redis();
 //const crypto= require('crypto');
 import crypto from "crypto";
-
+const codeExpiryDelta = 10 * 60000;
 async function acquireLock(key, ttl) {
   const lockKey = `lock:${key}`;
   const result = await redis.set(lockKey, "locked", "NX", "EX", ttl);
@@ -22,12 +22,37 @@ async function releaseLock(key) {
 // hostelMap.set("BTech23", "aryabhatta");
 
 async function showDetails(req, res) {
-  const { rollnum } = req.query;
+  // const { rollnum } = req.query;
+  const mailParts = req.auth.preferred_username.split("@")[0].split("_");
+  const rollnum = mailParts[0].startsWith("2") ? mailParts[0] : mailParts[1];
   try {
     const student = await prisma.students.findUnique({
       where: { rollnum: rollnum },
     });
-    console.log(student);
+    const room = await prisma.rooms.findUnique({
+      where: { roomId: student.room },
+    });
+
+    if (room.roommateCode && room.roommateCode.length != 0) {
+      const codeGeneratedAt = new Date(room.codeGeneratedAt);
+      const codeExpiryTime = new Date(
+        codeGeneratedAt.getTime() + codeExpiryDelta
+      ); // 10 minutes tak locked
+      const now = new Date();
+
+      if (now > codeExpiryTime) {
+        room.roommateCode = "";
+        room.codeGeneratedAt = "";
+        await prisma.rooms.update({
+          where: { roomId: student.room },
+          data: {
+            roommateCode: null,
+            codeGeneratedAt: null,
+          },
+        });
+      }
+    }
+    // console.log(student);
     if (student && student.allocated) {
       const roommates = await prisma.students.findMany({
         where: {
@@ -46,6 +71,7 @@ async function showDetails(req, res) {
         room: student.room,
         occupancy: student.occupancy,
         roommates,
+        roommateCode: room.roommateCode,
       });
     } else {
       res.status(400).json({ error: "kindly wait for allocation!" });
@@ -70,6 +96,29 @@ async function getRoom(req, res) {
         ],
       },
     });
+    let i;
+    for (i = 0; i < validRooms.length; i++) {
+      let room = validRooms[i];
+      if (room.roommateCode && room.roommateCode.length != 0) {
+        const codeGeneratedAt = new Date(room.codeGeneratedAt);
+        const codeExpiryTime = new Date(
+          codeGeneratedAt.getTime() + codeExpiryDelta
+        ); // 10 minutes tak locked
+        const now = new Date();
+
+        if (now > codeExpiryTime) {
+          room.roommateCode = null;
+          room.codeGeneratedAt = null;
+          await prisma.rooms.update({
+            where: { roomId: student.room },
+            data: {
+              roommateCode: null,
+              codeGeneratedAt: null,
+            },
+          });
+        }
+      }
+    }
     return res.status(200).json({ rooms: validRooms });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -77,7 +126,10 @@ async function getRoom(req, res) {
 }
 
 async function roomBooking(req, res) {
-  const { studentId, roomId, roommateCode } = req.body;
+  const { roomId, roommateCode, gender, batch } = req.body;
+  const name = req.auth.name;
+  const mailParts = req.auth.preferred_username.split("@")[0].split("_");
+  const studentId = mailParts[0].startsWith("2") ? mailParts[0] : mailParts[1];
   const lockKey = `room:${roomId}`;
   const studentLockKey = `student:${studentId}`;
 
@@ -111,25 +163,21 @@ async function roomBooking(req, res) {
       where: { rollnum: studentId },
     });
 
-    if (!student) {
-      console.log("Student does not exist:", studentId);
-      return res.status(400).json({ error: "Student does not exist" });
-    }
-
-    if (student.allocated) {
+    if (student && student.allocated) {
+      console.log("Student already allotted:", studentId);
       return res.status(400).json({
         error: "You have already been given a room. You cannot book any more!",
       });
     }
 
-    if (student.batch !== room.batch) {
-      return res
-        .status(400)
-        .json({ error: "This room is not available for your batch!" });
-    }
+    // if (student.batch !== room.batch) {
+    //   return res
+    //     .status(400)
+    //     .json({ error: "This room is not available for your batch!" });
+    // }
 
     if (room.numFilled < room.capacity) {
-      console.log(room);
+      // console.log(room);
       const now = new Date();
 
       let generatedCode = null;
@@ -141,29 +189,48 @@ async function roomBooking(req, res) {
         room.codeGeneratedAt = now;
       } else {
         const codeGeneratedAt = new Date(room.codeGeneratedAt);
-        const codeExpiryTime = new Date(codeGeneratedAt.getTime() + 10 * 60000); // 10 minutes tak locked
+        const codeExpiryTime = new Date(
+          codeGeneratedAt.getTime() + codeExpiryDelta
+        ); // 10 minutes tak locked
         if (now > codeExpiryTime) {
-          room.roommateCode = null;
+          room.roommateCode = "";
           room.codeGeneratedAt = null;
+          await prisma.rooms.update({
+            where: { roomId: room.roomId },
+            data: {
+              roommateCode: null,
+              codeGeneratedAt: null,
+            },
+          });
         } else if (roommateCode !== room.roommateCode) {
           return res.status(400).json({ error: "Invalid roommate code" });
         }
       }
       let students = room.students;
-      students.push(student.rollnum + " - " + student.name);
+      students.push(studentId + " - " + name);
       await prisma.$transaction(async (prisma) => {
+        let code = generatedCode || room.roommateCode;
         await prisma.rooms.update({
           where: { roomId },
-          data: { numFilled: room.numFilled + 1, students: students },
+          data: {
+            numFilled: room.numFilled + 1,
+            students: students,
+            roommateCode: code,
+            codeGeneratedAt: room.codeGeneratedAt,
+          },
         });
 
-        await prisma.students.update({
-          where: { rollnum: studentId },
+        await prisma.students.create({
           data: {
+            rollnum: studentId,
+            name,
             allocated: true,
             roomnum: room.roomNum,
             room: roomId,
             hostel: room.hostel,
+            occupancy: room.capacity,
+            gender: gender,
+            batch: batch,
           },
         });
       });
