@@ -25,20 +25,16 @@ router.use(async (req, res, next) => {
         "https://login.microsoftonline.com/a57f7d92-038e-4d4c-8265-7cd2beb33b34/v2.0",
     });
 
-    switch (req._parsedUrl.pathname) {
-      case "/allocated-details":
-        nonfresherController.showDetails(req, res);
-        break;
-      case "/room-status":
-        nonfresherController.getRoom(req, res);
-        break;
-      case "/room-booking":
-        nonfresherController.roomBooking(req, res);
-        break;
-      default:
-        console.error("Unknown Route");
-        res.sendStatus(404);
+    let email = req.auth.preferred_username;
+    let firstname_roll = email.split("@")[0];
+    let parts = firstname_roll.split("_");
+    for (let part of parts) {
+      if (part.startsWith("24")) {
+        console.error("Fresher trying to allocate non fresher room");
+        res.sendStatus(401);
+      }
     }
+    next();
   } catch (e) {
     console.error(e);
     res.sendStatus(401);
