@@ -18,7 +18,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { getRollNumber } from "@/lib/auth_utility";
 import { useEffect, useState } from "react";
 import hostel_data from "@/data/available_rooms.json";
 import Spinner from "@/components/spinner";
@@ -33,6 +32,7 @@ import {
 import { useNavigate } from "react-router";
 import Footer from "@/components/Footer";
 import { useMsal } from "@azure/msal-react";
+import { getName, getRollNumber } from "@/lib/auth_utility";
 
 const steps = [
   { title: "Details" },
@@ -339,6 +339,8 @@ const FloorAndRoom = ({
         .then((data) => {
           setLoading(false);
           console.log(data);
+          let rooms = data.rooms;
+          rooms.sort((a, b) => a.roomNum - b.roomNum);
           setRoomData(data.rooms);
         });
     });
@@ -357,6 +359,9 @@ const FloorAndRoom = ({
           studentId: getRollNumber(),
           roomId: roomId,
           roommateCode: roommateCode ? roommateCode : null,
+          name: getName(),
+          gender: studDetails.gender,
+          batch: studDetails.batch,
         }),
       }).then((res) => {
         if (res.status == 200) {

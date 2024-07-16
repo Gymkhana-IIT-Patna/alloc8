@@ -77,7 +77,7 @@ async function getRoom(req, res) {
 }
 
 async function roomBooking(req, res) {
-  const { studentId, roomId, roommateCode } = req.body;
+  const { studentId, roomId, roommateCode, name, gender, batch } = req.body;
   const lockKey = `room:${roomId}`;
   const studentLockKey = `student:${studentId}`;
 
@@ -111,22 +111,18 @@ async function roomBooking(req, res) {
       where: { rollnum: studentId },
     });
 
-    if (!student) {
-      console.log("Student does not exist:", studentId);
-      return res.status(400).json({ error: "Student does not exist" });
-    }
-
-    if (student.allocated) {
+    if (student && student.allocated) {
+      console.log("Student already allotted:", studentId);
       return res.status(400).json({
         error: "You have already been given a room. You cannot book any more!",
       });
     }
 
-    if (student.batch !== room.batch) {
-      return res
-        .status(400)
-        .json({ error: "This room is not available for your batch!" });
-    }
+    // if (student.batch !== room.batch) {
+    //   return res
+    //     .status(400)
+    //     .json({ error: "This room is not available for your batch!" });
+    // }
 
     if (room.numFilled < room.capacity) {
       console.log(room);
@@ -150,20 +146,24 @@ async function roomBooking(req, res) {
         }
       }
       let students = room.students;
-      students.push(student.rollnum + " - " + student.name);
+      students.push(studentId + " - " + name);
       await prisma.$transaction(async (prisma) => {
         await prisma.rooms.update({
           where: { roomId },
           data: { numFilled: room.numFilled + 1, students: students },
         });
 
-        await prisma.students.update({
-          where: { rollnum: studentId },
+        await prisma.students.create({
           data: {
+            rollnum: studentId,
+            name,
             allocated: true,
             roomnum: room.roomNum,
             room: roomId,
             hostel: room.hostel,
+            occupancy: room.capacity,
+            gender: gender,
+            batch: batch,
           },
         });
       });

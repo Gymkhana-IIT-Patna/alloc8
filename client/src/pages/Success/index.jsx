@@ -109,7 +109,7 @@ const SuccessPage = () => {
                 <b>Name: </b> {getName()}
               </div>
               <div>
-                <b>Roll No.: </b> {getRollNumber()}
+                <b>Roll No.: </b> {getRollNumber().toUpperCase()}
               </div>
               <div>
                 <b>Hostel: </b> {studData?.hostel}
@@ -119,6 +119,10 @@ const SuccessPage = () => {
               </div>
               <div>
                 <b>Occupancy: </b> {studData?.occupancy}
+              </div>
+              <div>
+                <b>Timestamp: </b>
+                {new Date().toString()}
               </div>
               <div>
                 <b>Roommates Until Now: </b>{" "}
