@@ -28,7 +28,7 @@ const prisma = new PrismaClient();
 const app = express();
 
 // Middleware
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(cors({ origin: 'https://alloc8.in:{process.env.FRONTEND_PORT}', credentials: true }));
 app.locals.pems = [];
 fetch(
     "https://login.microsoftonline.com/a57f7d92-038e-4d4c-8265-7cd2beb33b34/discovery/v2.0/keys"
@@ -45,7 +45,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/fresher", fresherRoutes);
 app.use("/api/nonfresher", nonfresherRoutes);
-const PORT = 8800;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log("Connected to Backend on Port", PORT);
 });

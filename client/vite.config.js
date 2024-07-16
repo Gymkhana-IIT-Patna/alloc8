@@ -4,6 +4,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
+const port = process.env.BACKEND_PORT;
 
 const __dirname = path.dirname(__filename);
 // https://vitejs.dev/config/
@@ -18,7 +19,7 @@ export default defineConfig({
     host: true,
     proxy: {
       "/api": {
-        target: "http://localhost:8800",
+        target: 'https://alloc8.in:{port}/',
         changeOrigin: true,
         // secure: false,
       },
