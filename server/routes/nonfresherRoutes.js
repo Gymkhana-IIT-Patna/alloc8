@@ -51,3 +51,4 @@ router.post("/room-status", nonfresherController.getRoom);
 router.post("/room-booking", nonfresherController.roomBooking);
 
 export default router;
+/* vi: set et sw=2: */
