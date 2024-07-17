@@ -194,7 +194,7 @@ async function roomBooking(req, res) {
       } else {
         const codeGeneratedAt = new Date(room.codeGeneratedAt);
         const codeExpiryTime = new Date(
-          cwaitodeGeneratedAt.getTime() + codeExpiryDelta
+          codeGeneratedAt.getTime() + codeExpiryDelta
         ); // 10 minutes tak locked
         if (now > codeExpiryTime) {
           room.roommateCode = "";

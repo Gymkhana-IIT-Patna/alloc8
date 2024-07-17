@@ -35,6 +35,12 @@ main()
               ) {
                 capacity = 1;
               }
+		if(hostel == 'aryabhatta a' &&  room == 628){
+			capacity = 1;
+		}
+		if(hostel == 'asima b' && room == 205){
+			capacity = 1
+		}
               //   console.log(
               //     `${hostel}-${
               //       floor.toString() + room.toString().padStart(2, "0")
