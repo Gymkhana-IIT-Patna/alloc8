@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React, { Children, Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
@@ -10,6 +10,7 @@ import {
   Register,
   AlottedRooms,
   Success,
+  Error,
 } from "./pages/index.js";
 // Outlook Auth
 import { MsalProvider } from "@azure/msal-react";
@@ -18,28 +19,39 @@ import { msalConfig } from "./authConfig.js";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <Home />,
-  },
-  {
-    path: "/Register",
-    element: <Register />,
-  },
-  {
-    path: "/allotroom",
-    element: <Others />,
-  },
-  {
-    path: "/success",
-    element: <Success />,
-  },
-  {
-    path: "/waiting",
-    element: <WaitingPage />,
-  },
-  {
-    path: "/AlottedRooms",
-    element: <AlottedRooms />,
+    errorElement: <Error />,
+    children: [
+      {
+        path: "/",
+        element: <Home />,
+        errorElement: <Error />,
+      },
+      {
+        path: "/Register",
+        element: <Register />,
+        errorElement: <Error />,
+      },
+      {
+        path: "/allotroom",
+        element: <Others />,
+        errorElement: <Error />,
+      },
+      {
+        path: "/success",
+        element: <Success />,
+        errorElement: <Error />,
+      },
+      {
+        path: "/waiting",
+        element: <WaitingPage />,
+        errorElement: <Error />,
+      },
+      {
+        path: "/AlottedRooms",
+        element: <AlottedRooms />,
+        errorElement: <Error />,
+      },
+    ],
   },
 ]);
 

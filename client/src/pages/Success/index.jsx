@@ -153,7 +153,7 @@ const SuccessPage = () => {
       <div className="flex justify-center mt-5">
         <button
           onClick={downloadPDF}
-          className="px-4 py-2 bg-blue-500 text-white rounded"
+          className="px-4 py-2 bg-blue-500 text-white rounded mb-[7em]"
         >
           Download PDF
         </button>
