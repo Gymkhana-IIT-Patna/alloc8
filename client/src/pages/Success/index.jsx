@@ -45,8 +45,11 @@ const SuccessPage = () => {
     });
   }, []);
 
+  const viewport = document.querySelector("meta[name=viewport]");
   const downloadPDF = () => {
     // window.print();
+    viewport.setAttribute("content", "width=1024");
+
     const input = contentRef.current;
     html2canvas(input).then((canvas) => {
       const imgData = canvas.toDataURL("image/png");
@@ -56,6 +59,7 @@ const SuccessPage = () => {
       const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
       pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
       pdf.save("room_allocation_details.pdf");
+      viewport.setAttribute("content", "width=device-width, initial-scale=1.0");
     });
   };
 
