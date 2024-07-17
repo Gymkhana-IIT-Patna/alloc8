@@ -110,7 +110,7 @@ async function getRoom(req, res) {
           room.roommateCode = null;
           room.codeGeneratedAt = null;
           await prisma.rooms.update({
-            where: { roomId: student.room },
+            where: { roomId: room.roomId },
             data: {
               roommateCode: null,
               codeGeneratedAt: null,
