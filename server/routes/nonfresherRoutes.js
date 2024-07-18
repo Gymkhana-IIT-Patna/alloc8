@@ -4,10 +4,6 @@ const router = express.Router();
 import jwt from "jsonwebtoken";
 
 router.use(async (req, res, next) => {
-  req.auth = { "preferred_username": req.get("preferred_username"), "name": req.get("name") };
-  console.log(req.auth);
-  next();
-  /*
   const token = req.get("X-Alloc8-IDToken");
   if (token == undefined) {
     res.sendStatus(401);
@@ -29,7 +25,7 @@ router.use(async (req, res, next) => {
     req.auth = jwt.verify(token, pems[i], {
       algorithms: "RS256",*/
       /* TODO: add these to config.json - pranjal */
-    /*  audience: "35a0637a-3118-4cc3-9180-30f6beae3a5d",
+      audience: "35a0637a-3118-4cc3-9180-30f6beae3a5d",
       issuer:
         "https://login.microsoftonline.com/a57f7d92-038e-4d4c-8265-7cd2beb33b34/v2.0",
     });
@@ -47,7 +43,7 @@ router.use(async (req, res, next) => {
   } catch (e) {
     console.error(e);
     res.sendStatus(401);
-  }*/
+  }
 });
 
 //if allocated then get this and show to client
