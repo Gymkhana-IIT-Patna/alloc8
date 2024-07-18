@@ -31,9 +31,16 @@ function getBatch(rollnum) {
 
 function getRollNumber(preferred_username) {
   const mailParts = preferred_username.split("@")[0].split("_");
-  if (mailParts.length != 2) return null;
-  const rollnum = mailParts[0].startsWith("2") ? mailParts[0] : mailParts[1];
-  return rollnum;
+  if (mailParts.length != 2) {
+    console.error("Invalid mail", preferred_username);
+    return null;
+  }
+  if (mailParts[0].startsWith("2")) return mailParts[0];
+  else if (mailParts[1].startsWith("2")) return mailParts[1];
+  else {
+    console.error("Invalid mail", preferred_username);
+    return null;
+  }
 }
 
 async function showDetails(req, res) {
