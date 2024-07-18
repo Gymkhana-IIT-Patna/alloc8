@@ -23,7 +23,7 @@ router.use(async (req, res, next) => {
   }
   try {
     req.auth = jwt.verify(token, pems[i], {
-      algorithms: "RS256",*/
+      algorithms: "RS256",
       /* TODO: add these to config.json - pranjal */
       audience: "35a0637a-3118-4cc3-9180-30f6beae3a5d",
       issuer:
