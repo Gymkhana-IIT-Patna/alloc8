@@ -142,8 +142,8 @@ const SuccessPage = () => {
               {studData &&
               studData.roommateCode &&
               studData.roommateCode.length > 0 ? (
-                <div>
-                  <b>Roommate Code: </b> {studData?.roommateCode}
+                <div style={{ textTransform: "lowercase" }}>
+                  <b>Roommate Code: </b> {studData?.roommateCode?.toLowerCase()}
                 </div>
               ) : (
                 <></>
