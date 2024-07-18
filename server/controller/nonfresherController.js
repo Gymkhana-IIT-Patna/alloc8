@@ -21,11 +21,11 @@ async function releaseLock(key) {
 // hostelMap.set("BTech22", "kalam");
 // hostelMap.set("BTech23", "aryabhatta");
 function getBatch(rollnum) {
-  const year = rollnum[0]+rollnum[1];
-  if (rollnum[2] == "0") return "btech"+year;
-  if (rollnum[2] == "1" && rollnum[3] == "1") return "mtech"+year;
-  if (rollnum[2] == "1" && rollnum[3] == "2") return "msc"+year;
-  if (rollnum[2] == "2") return "phd"+year;
+  const year = rollnum[0] + rollnum[1];
+  if (rollnum[2] == "0") return "btech" + year;
+  if (rollnum[2] == "1" && rollnum[3] == "1") return "mtech" + year;
+  if (rollnum[2] == "1" && rollnum[3] == "2") return "msc" + year;
+  if (rollnum[2] == "2") return "phd" + year;
   return "error";
 }
 
@@ -103,9 +103,39 @@ async function showDetails(req, res) {
 
 async function getRoom(req, res) {
   const { batch, gender, hostel, floor } = req.body;
-  if (batch == undefined || gender == undefined || hostel == undefined || floor == undefined) {
+  if (
+    batch == undefined ||
+    gender == undefined ||
+    hostel == undefined ||
+    floor == undefined
+  ) {
     res.sendStatus(422);
     return;
+  }
+
+  if (
+    [
+      "phd14",
+      "phd15",
+      "phd16",
+      "phd17",
+      "phd18",
+      "phd19",
+      "phd20",
+      "phd21",
+    ].includes(batch) ||
+    (batch == "phd21" && gender == "male")
+  ) {
+    batch = "phd14to20male";
+  }
+
+  if (
+    ["phd17", "phd18", "phd19", "phd20", "phd21", "phd22", "phd23"].includes(
+      batch
+    ) &&
+    gender == "female"
+  ) {
+    batch = "phd17to23female";
   }
   console.log("Getting rooms for batch:", batch);
   try {
@@ -155,6 +185,38 @@ async function getRoom(req, res) {
 
 async function roomBooking(req, res) {
   const { roomId, roommateCode, gender, batch } = req.body;
+  const hardCodedCapacity = null;
+  if (
+    ["phd17", "phd18", "phd19"].includes(batch) &&
+    roomId.includes("asima a")
+  ) {
+    hardCodedCapacity = 2;
+  }
+  if (
+    [
+      "phd14",
+      "phd15",
+      "phd16",
+      "phd17",
+      "phd18",
+      "phd19",
+      "phd20",
+      "phd21",
+    ].includes(batch) ||
+    (batch == "phd21" && gender == "male")
+  ) {
+    batch = "phd14to20male";
+  }
+
+  if (
+    ["phd17", "phd18", "phd19", "phd20", "phd21", "phd22", "phd23"].includes(
+      batch
+    ) &&
+    gender == "female"
+  ) {
+    batch = "phd17to23female";
+  }
+
   const name = req.auth.name;
   const studentId = getRollNumber(req.auth.preferred_username);
   const lockKey = `room:${roomId}`;
@@ -244,6 +306,7 @@ async function roomBooking(req, res) {
             students: students,
             roommateCode: code,
             codeGeneratedAt: room.codeGeneratedAt,
+            capacity: hardCodedCapacity || room.capacity,
           },
         });
 
@@ -255,7 +318,7 @@ async function roomBooking(req, res) {
             roomnum: room.roomNum,
             room: roomId,
             hostel: room.hostel,
-            occupancy: room.capacity,
+            occupancy: hardCodedCapacity || room.capacity,
             gender: gender,
             batch: batch,
           },

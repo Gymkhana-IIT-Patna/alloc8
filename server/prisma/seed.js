@@ -6,7 +6,7 @@ async function main() {}
 
 main()
   .then(async () => {
-    const data = [];
+    const data = new Set([]);
     const ids = [];
     for (let batch in available_rooms) {
       for (let gender in available_rooms[batch]) {
@@ -30,29 +30,42 @@ main()
                   "phd18",
                   "phd19",
                   "phd20",
+                  "phd21",
                 ].includes(batch) ||
                 (batch == "phd21" && gender == "male")
               ) {
                 capacity = 1;
+                batch = "phd14to20male";
               }
-		if(hostel == 'aryabhatta a' &&  room == 628){
-			capacity = 1;
-		}
-		if(hostel == 'asima b' && room == 205){
-			capacity = 1
-		}
+
+              if (
+                [
+                  "phd17",
+                  "phd18",
+                  "phd19",
+                  "phd20",
+                  "phd21",
+                  "phd22",
+                  "phd23",
+                ].includes(batch) &&
+                gender == "female"
+              ) {
+                capacity = 1;
+                batch = "phd17to23female";
+              }
+
               //   console.log(
               //     `${hostel}-${
               //       floor.toString() + room.toString().padStart(2, "0")
               //     }`
               //   );
-              ids.push(
-                `${hostel}-${
-                  floor.toString() + room.toString().padStart(2, "0")
-                }-${batch}`
-              );
+              // ids.push(
+              //   `${hostel}-${
+              //     floor.toString() + room.toString().padStart(2, "0")
+              //   }-${batch}`
+              // );
 
-              data.push({
+              data.add({
                 roomId: `${hostel}-${
                   floor.toString() + room.toString().padStart(2, "0")
                 }-${batch}`,
@@ -72,20 +85,20 @@ main()
       }
     }
 
-    const findDuplicates = (arr) => {
-      let sorted_arr = arr.slice().sort(); // You can define the comparing function here.
-      // JS by default uses a crappy string compare.
-      // (we use slice to clone the array so the
-      // original array won't be modified)
-      let results = [];
-      for (let i = 0; i < sorted_arr.length - 1; i++) {
-        if (sorted_arr[i + 1] == sorted_arr[i]) {
-          results.push(sorted_arr[i]);
-        }
-      }
-      return results;
-    };
-    console.log("duplicate IDs", findDuplicates(ids));
+    // const findDuplicates = (arr) => {
+    //   let sorted_arr = arr.slice().sort(); // You can define the comparing function here.
+    //   // JS by default uses a crappy string compare.
+    //   // (we use slice to clone the array so the
+    //   // original array won't be modified)
+    //   let results = [];
+    //   for (let i = 0; i < sorted_arr.length - 1; i++) {
+    //     if (sorted_arr[i + 1] == sorted_arr[i]) {
+    //       results.push(sorted_arr[i]);
+    //     }
+    //   }
+    //   return results;
+    // };
+    // console.log("duplicate IDs", findDuplicates(ids));
     const createMany = await prisma.rooms.createMany({
       data: data,
     });
