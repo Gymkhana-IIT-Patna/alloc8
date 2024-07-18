@@ -44,7 +44,6 @@ fetch(
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(apiLimiter);
 
 app.use("/api/fresher", fresherRoutes);
 app.use("/api/nonfresher", nonfresherRoutes);

@@ -21,6 +21,10 @@ async function releaseLock(key) {
 // hostelMap.set("BTech22", "kalam");
 // hostelMap.set("BTech23", "aryabhatta");
 function getBatch(rollnum) {
+  if (rollnum.length < 2) {
+    console.log("Invalid rollnum", rollnum);
+    return "error";
+  }
   const year = rollnum[0] + rollnum[1];
   if (rollnum[2] == "0") return "btech" + year;
   if (rollnum[2] == "1" && rollnum[3] == "1") return "mtech" + year;
@@ -35,8 +39,8 @@ function getRollNumber(preferred_username) {
     console.error("Invalid mail", preferred_username);
     return null;
   }
-  if (mailParts[0].startsWith("2")) return mailParts[0];
-  else if (mailParts[1].startsWith("2")) return mailParts[1];
+  if (mailParts[0].startsWith("2") || mailParts[0].startsWith("1")) return mailParts[0];
+  else if (mailParts[1].startsWith("2") || mailParts[1].startsWith("1")) return mailParts[1];
   else {
     console.error("Invalid mail", preferred_username);
     return null;

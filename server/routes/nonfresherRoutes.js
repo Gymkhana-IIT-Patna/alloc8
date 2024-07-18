@@ -31,10 +31,11 @@ router.use(async (req, res, next) => {
     });
 
     let email = req.auth.preferred_username;
+    console.log(email)
     let firstname_roll = email.split("@")[0];
     let parts = firstname_roll.split("_");
     for (let part of parts) {
-      if (part.startsWith("24")) {
+      if (part.startsWith("24") && !part.startsWith("2421")) {
         console.error("Fresher trying to allocate non fresher room");
         res.sendStatus(401);
       }

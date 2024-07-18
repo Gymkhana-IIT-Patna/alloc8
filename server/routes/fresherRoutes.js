@@ -1,7 +1,7 @@
 import express from "express";
 import fresherController from "../controller/fresherController.js"
 const router = express.Router();
-import jwt  from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 router.use(async (req, res, next) => {
     const token = req.get("X-Alloc8-IDToken");
@@ -32,7 +32,11 @@ router.use(async (req, res, next) => {
         let firstname_roll = email.split("@")[0];
         let parts = firstname_roll.split("_");
         for (let part of parts) {
-          if (part.startsWith("24")) {
+          if (part.startsWith("2421")) {
+            console.error("PhD24 trying to allocate fresher room");
+            res.sendStatus(401);
+            return;
+          } else if (part.startsWith("24")) {
             next();
           }
         }
