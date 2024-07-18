@@ -20,11 +20,23 @@ async function releaseLock(key) {
 // hostelMap.set("BTech21", "kalam");
 // hostelMap.set("BTech22", "kalam");
 // hostelMap.set("BTech23", "aryabhatta");
+function getBatch(rollnum) {
+  const year = rollnum[0]+rollnum[1];
+  if (rollnum[2] == "0") return "btech"+year;
+  if (rollnum[2] == "1" && rollnum[3] == "1") return "mtech"+year;
+  if (rollnum[2] == "1" && rollnum[3] == "2") return "msc"+year;
+  if (rollnum[2] == "2") return "phd"+year;
+  return "error";
+}
+
+function getRollNumber(preferred_username) {
+  const mailParts = preferred_username.split("@")[0].split("_");
+  const rollnum = mailParts[0].startsWith("2") ? mailParts[0] : mailParts[1];
+  return rollnum;
+}
 
 async function showDetails(req, res) {
-  // const { rollnum } = req.query;
-  const mailParts = req.auth.preferred_username.split("@")[0].split("_");
-  const rollnum = mailParts[0].startsWith("2") ? mailParts[0] : mailParts[1];
+  const rollnum = getRollNumber(req.auth.preferred_username);
   try {
     const student = await prisma.students.findUnique({
       where: { rollnum: rollnum },
@@ -83,6 +95,10 @@ async function showDetails(req, res) {
 
 async function getRoom(req, res) {
   const { batch, gender, hostel, floor } = req.body;
+  if (batch == undefined || gender == undefined || hostel == undefined || floor == undefined) {
+    res.sendStatus(422);
+    return;
+  }
   console.log("Getting rooms for batch:", batch);
   try {
     const validRooms = await prisma.rooms.findMany({
@@ -132,8 +148,7 @@ async function getRoom(req, res) {
 async function roomBooking(req, res) {
   const { roomId, roommateCode, gender, batch } = req.body;
   const name = req.auth.name;
-  const mailParts = req.auth.preferred_username.split("@")[0].split("_");
-  const studentId = mailParts[0].startsWith("2") ? mailParts[0] : mailParts[1];
+  const studentId = getRollNumber(req.auth.preferred_username);
   const lockKey = `room:${roomId}`;
   const studentLockKey = `student:${studentId}`;
 
@@ -194,7 +209,7 @@ async function roomBooking(req, res) {
       } else {
         const codeGeneratedAt = new Date(room.codeGeneratedAt);
         const codeExpiryTime = new Date(
-          cwaitodeGeneratedAt.getTime() + codeExpiryDelta
+          codeGeneratedAt.getTime() + codeExpiryDelta
         ); // 10 minutes tak locked
         if (now > codeExpiryTime) {
           room.roommateCode = "";
@@ -257,3 +272,4 @@ export default {
   getRoom,
   roomBooking,
 };
+/* vi: set et sw=2: */
