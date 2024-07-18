@@ -31,6 +31,7 @@ function getBatch(rollnum) {
 
 function getRollNumber(preferred_username) {
   const mailParts = preferred_username.split("@")[0].split("_");
+  if (mailParts.length != 2) return null;
   const rollnum = mailParts[0].startsWith("2") ? mailParts[0] : mailParts[1];
   return rollnum;
 }
