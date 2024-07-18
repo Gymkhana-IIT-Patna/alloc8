@@ -31,6 +31,7 @@ router.use(async (req, res, next) => {
     });
 
     let email = req.auth.preferred_username;
+    console.log(email)
     let firstname_roll = email.split("@")[0];
     let parts = firstname_roll.split("_");
     for (let part of parts) {
