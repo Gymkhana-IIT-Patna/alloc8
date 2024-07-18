@@ -145,7 +145,9 @@ const SuccessPage = () => {
                 <div style={{ textTransform: "lowercase" }}>
                   <b>Roommate Code: </b> {studData?.roommateCode?.toLowerCase()}
                   <div style={{ textTransform: "lowercase" }}>
-                  <b>Roommate Code: </b> {studData?.roommateCode?.toLowerCase()}
+                    <b>Roommate Code: </b>{" "}
+                    {studData?.roommateCode?.toLowerCase()}
+                  </div>
                 </div>
               ) : (
                 <></>
