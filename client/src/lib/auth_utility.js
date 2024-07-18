@@ -5,7 +5,6 @@ function extractRollNumber(email) {
   return match ? match[0] : null;
 }
 
-import { msalInstance } from "../main.jsx";
 function getBatch(rollnum) {
   const year = rollnum[0] + rollnum[1];
   if (rollnum[2] == "0") return "btech" + year;
