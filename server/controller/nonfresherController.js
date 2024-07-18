@@ -107,7 +107,7 @@ async function getRoom(req, res) {
     res.sendStatus(422);
     return;
   }
-  const batch = getBatch(getRollNumber(req.auth.preferred_username));
+  let batch = getBatch(getRollNumber(req.auth.preferred_username));
 
   if (
     [
