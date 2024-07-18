@@ -125,7 +125,7 @@ const SuccessPage = () => {
                 <b>Occupancy: </b> {studData?.occupancy}
               </div>
               <div>
-                <b>Timestamp: </b>
+                <b>PDF Generated at: </b>
                 {new Date().toString()}
               </div>
               <div>

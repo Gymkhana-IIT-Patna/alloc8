@@ -3,13 +3,20 @@ import msLogo from "../../assets/ms_logo.svg";
 import logo from "../../assets/logo.png";
 import Footer from "@/components/Footer";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useIsAuthenticated, useMsal } from "@azure/msal-react";
-
 const HomePage = () => {
   const navigate = useNavigate();
+
   const isAuthenticated = useIsAuthenticated();
   const { instance, accounts } = useMsal();
+  const { search } = useLocation();
+  const query = new URLSearchParams(search);
+  console.log(query.get("pass"));
+  if (query.get("pass") != "BALA") {
+    return <>Site under maintenance. Please wait for an official mail</>;
+  }
+
   useEffect(() => {
     if (isAuthenticated) {
       let navigated = false;
@@ -28,6 +35,7 @@ const HomePage = () => {
   const initializeSignIn = () => {
     instance.loginRedirect();
   };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-5 bg-gray-200">
       <div className="w-full max-w-md p-10 pb-20  bg-white rounded-lg shadow-lg flex flex-col items-center border border-gray-300">

@@ -174,6 +174,7 @@ const Details = ({ onNext, onPrev, activeStep }) => {
             <SelectItem value="PhD21">{"PhD'21"}</SelectItem>
             <SelectItem value="PhD22">{"PhD'22"}</SelectItem>
             <SelectItem value="PhD23">{"PhD'23"}</SelectItem>
+            <SelectItem value="PhD24">{"PhD'24"}</SelectItem>
           </SelectGroup>
         </SelectContent>
       </Select>
