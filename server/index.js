@@ -10,6 +10,7 @@ import { expressjwt as jwt } from "express-jwt";
 import jwkToPem from "jwk-to-pem";
 import path from "path";
 const prisma = new PrismaClient();
+import apiLimiter from "./rateLimiter.js";
 
 // async function main() {
 //   // ... you will write your Prisma Client queries here
@@ -43,6 +44,7 @@ fetch(
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(apiLimiter);
 
 app.use("/api/fresher", fresherRoutes);
 app.use("/api/nonfresher", nonfresherRoutes);
