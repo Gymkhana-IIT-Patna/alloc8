@@ -332,8 +332,6 @@ const FloorAndRoom = ({
           Accept: "application/json",
           "Content-Type": "application/json",
           "X-Alloc8-IDToken": res.idToken,
-          preferred_username: "hemant_2301cs20@iitp.ac.in",
-          name: "Hemant Kumar",
         },
         body: JSON.stringify(postBody),
       })
@@ -356,8 +354,6 @@ const FloorAndRoom = ({
           Accept: "application/json",
           "Content-Type": "application/json",
           "X-Alloc8-IDToken": res.idToken,
-          preferred_username: "hemant_2301cs20@iitp.ac.in",
-          name: "Hemant Kumar",
         },
         body: JSON.stringify({
           studentId: getRollNumber(),

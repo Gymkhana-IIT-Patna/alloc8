@@ -29,8 +29,6 @@ const SuccessPage = () => {
         {
           method: "GET",
           headers: { "X-Alloc8-IDToken": res.idToken },
-          preferred_username: "hemant_2301cs20@iitp.ac.in",
-          name: "Hemant Kumar",
         }
       )
         .then((res) => res.json())
