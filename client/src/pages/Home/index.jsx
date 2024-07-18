@@ -22,7 +22,7 @@ const HomePage = () => {
       let navigated = false;
       let parts = accounts[0].username.split("_");
       for (let part of parts) {
-        if (part.startsWith("24")) {
+        if (part.startsWith("24") && !part.startsWith("2421")) {
           navigate("/Register");
           navigated = true;
         }
