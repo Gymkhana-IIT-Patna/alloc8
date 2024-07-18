@@ -102,7 +102,7 @@ async function showDetails(req, res) {
 }
 
 async function getRoom(req, res) {
-  const { gender, hostel, floor } = req.body;
+  let { gender, hostel, floor } = req.body;
   if (gender == undefined || hostel == undefined || floor == undefined) {
     res.sendStatus(422);
     return;
@@ -181,7 +181,7 @@ async function getRoom(req, res) {
 
 async function roomBooking(req, res) {
   const { roomId, roommateCode, gender } = req.body;
-  const batch = getBatch(getRollNumber(req.auth.preferred_username));
+  let batch = getBatch(getRollNumber(req.auth.preferred_username));
   const hardCodedCapacity = null;
   if (
     ["phd17", "phd18", "phd19"].includes(batch) &&
