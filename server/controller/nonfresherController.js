@@ -102,16 +102,12 @@ async function showDetails(req, res) {
 }
 
 async function getRoom(req, res) {
-  const { batch, gender, hostel, floor } = req.body;
-  if (
-    batch == undefined ||
-    gender == undefined ||
-    hostel == undefined ||
-    floor == undefined
-  ) {
+  const { gender, hostel, floor } = req.body;
+  if (gender == undefined || hostel == undefined || floor == undefined) {
     res.sendStatus(422);
     return;
   }
+  const batch = getBatch(getRollNumber(req.auth.preferred_username));
 
   if (
     [
@@ -184,7 +180,8 @@ async function getRoom(req, res) {
 }
 
 async function roomBooking(req, res) {
-  const { roomId, roommateCode, gender, batch } = req.body;
+  const { roomId, roommateCode, gender } = req.body;
+  const batch = getBatch(getRollNumber(req.auth.preferred_username));
   const hardCodedCapacity = null;
   if (
     ["phd17", "phd18", "phd19"].includes(batch) &&
