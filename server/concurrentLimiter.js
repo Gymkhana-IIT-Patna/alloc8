@@ -1,6 +1,6 @@
 import semaphore from 'semaphore';
 
-const maxConcurrentRequests = 20; 
+const maxConcurrentRequests = 40; 
 const sem = semaphore(maxConcurrentRequests);
 
 const concurrentLimiter = (req, res, next) => {
