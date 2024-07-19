@@ -35,6 +35,9 @@ function getBatch(rollnum) {
 
 function getRollNumber(preferred_username) {
   const mailParts = preferred_username.split("@")[0].split("_");
+  if (mailParts[0] == "1821me16" || mailParts[0] == "1821ph11" || mailParts[0] == "1821me11") {
+    return mailParts[0];
+  }
   if (mailParts.length != 2) {
     console.error("Invalid mail", preferred_username);
     return null;
