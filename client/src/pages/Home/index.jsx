@@ -13,7 +13,7 @@ const HomePage = () => {
   const { search } = useLocation();
   const query = new URLSearchParams(search);
   console.log(query.get("pass"));
-  if (query.get("pass") != "ALAB") {
+  if (query.get("pass") != "HPBV4") {
     return <>Site under maintenance. Please wait for an official mail</>;
   }
 
