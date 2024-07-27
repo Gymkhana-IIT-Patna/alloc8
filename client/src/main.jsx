@@ -9,6 +9,8 @@ import {
   Others,
   Register,
   AlottedRooms,
+  FresherSuccess,
+  Freshers,
   Success,
   Error,
 } from "./pages/index.js";
@@ -47,8 +49,13 @@ const router = createBrowserRouter([
         errorElement: <Error />,
       },
       {
-        path: "/AlottedRooms",
-        element: <AlottedRooms />,
+        path: "/freshers",
+        element: <Freshers />,
+        errorElement: <Error />,
+      },
+      {
+        path: "/fresher/success",
+        element: <FresherSuccess />,
         errorElement: <Error />,
       },
     ],

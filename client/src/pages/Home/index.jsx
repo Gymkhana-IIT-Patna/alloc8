@@ -3,7 +3,7 @@ import msLogo from "../../assets/ms_logo.svg";
 import logo from "../../assets/logo.png";
 import Footer from "@/components/Footer";
 import { useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { useIsAuthenticated, useMsal } from "@azure/msal-react";
 const HomePage = () => {
   const navigate = useNavigate();
@@ -13,9 +13,9 @@ const HomePage = () => {
   const { search } = useLocation();
   const query = new URLSearchParams(search);
   console.log(query.get("pass"));
-  if (query.get("pass") != "HPBV4") {
-    return <>Site under maintenance. Please wait for an official mail</>;
-  }
+  // if (query.get("pass") != "HPBV4") {
+  //   return <>Site under maintenance. Please wait for an official mail</>;
+  // }
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -58,6 +58,13 @@ const HomePage = () => {
             </Button>
           </div>
         </form>
+        <div className="my-5">OR</div>
+        <Link
+          to="/freshers"
+          className=" leading-[1.5px] p-5 py-6 rounded-sm  bg-slate-200"
+        >
+          New Student - 2024 Batch?
+        </Link>
       </div>
       <Footer></Footer>
     </div>
