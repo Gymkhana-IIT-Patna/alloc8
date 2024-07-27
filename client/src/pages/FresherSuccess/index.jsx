@@ -104,7 +104,7 @@ const SuccessPage = () => {
                 <b>Name: </b> {studData?.name}
               </div>
               <div>
-                <b>Roll No.: </b> {studData?.JEEAdvRollNo}
+                <b>JEE Adv Roll No.: </b> {studData?.JEEAdvRollNo}
               </div>
               <div>
                 <b>Hostel: </b> {studData?.hostel}
