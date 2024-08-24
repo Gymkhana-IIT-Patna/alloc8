@@ -7,7 +7,7 @@ import { Button } from "../ui/button";
 import "./index.css";
 import { useMsal } from "@azure/msal-react";
 
-export default function Registerform() {
+export default function SmpForm() {
   const languages = data.languages;
   const futureinterests = data.Future_Interests;
   const places = data.places;
@@ -253,27 +253,6 @@ export default function Registerform() {
           </select>
           {errors.futureInterests && (
             <p className="text-red-500">{errors.futureInterests.message}</p>
-          )}
-        </div>
-
-        <div className="flex items-center justify-between gap-4 input-container">
-          <label className="w-1/3">
-            Sleep Schedule<span className="text-red-500">*</span>
-          </label>
-          <select
-            defaultValue="Select"
-            {...register("sleep", {
-              validate: (value) =>
-                value !== "Select" || "Sleep Schedule is required",
-            })}
-            className={`mt-2 border-2 border-gray-300 focus:border-blue-500 px-4 focus:outline-none w-2/3 ${
-              errors.sleep ? "border-red-500" : ""
-            }`}
-          >
-            <Options array={sleep_nature} />
-          </select>
-          {errors.sleep && (
-            <p className="text-red-500">{errors.sleep.message}</p>
           )}
         </div>
 
