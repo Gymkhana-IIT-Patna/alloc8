@@ -1,0 +1,25 @@
+input,
+textarea,
+option {
+  border-radius: 5px;
+  padding-block: 1.1em !important;
+}
+select {
+  border-radius: 5px;
+  height: 2.9em;
+}
+@media (max-width: 500px) {
+  .input-container {
+    width: 100% !important;
+    flex-wrap: wrap !important;
+    gap: 0;
+  }
+  label,
+  input,
+  select,
+  textarea,
+  .multiselect {
+    width: 100% !important;
+    margin-top: 5px !important;
+  }
+}

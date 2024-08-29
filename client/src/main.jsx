@@ -18,6 +18,7 @@ import {
 import { MsalProvider } from "@azure/msal-react";
 import { PublicClientApplication } from "@azure/msal-browser";
 import { msalConfig } from "./authConfig.js";
+import SmpForm from "./components/SmpForm";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,11 @@ const router = createBrowserRouter([
       {
         path: "/allotroom",
         element: <Others />,
+        errorElement: <Error />,
+      },
+      {
+        path: "/smpform",
+        element: <SmpForm />,
         errorElement: <Error />,
       },
       {
