@@ -22,7 +22,7 @@ model rooms {
   codeGeneratedAt DateTime?
 }
 
-model students{
+model students {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   rollnum String @unique
   name String
@@ -35,16 +35,29 @@ model students{
   batch String
 }
 
-model fresherDetails{
+model fresherDetails {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   rollnum String @unique
   motherTongue String[]
-  placeOfLiving String 
+  placeOfLiving String
   branch String
-  sportsHobbies String 
-  techHobbies String 
+  sportsHobbies String
+  techHobbies String
   culturalHobbies String
-  nature String 
-  futureInterests String 
-  sleep String 
+  nature String
+  futureInterests String
+  sleep String
+}
+
+model smpDetails{
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  rollnum String @unique
+  branch String
+  placeOfLiving String
+  languagesSpoken String[]
+  sportsHobbies String
+  techHobbies String
+  culturalHobbies String
+  nature String
+  futureInterests String
 }

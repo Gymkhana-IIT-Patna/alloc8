@@ -3,6 +3,7 @@ import cors from "cors";
 import { PrismaClient } from "@prisma/client";
 import fresherRoutes from "./routes/fresherRoutes.js";
 import nonfresherRoutes from "./routes/nonfresherRoutes.js";
+import smpRoutes from "./routes/smpRoutes.js";
 // const fresherRoutes = require('./routes/fresherRoutes');
 // const nonfresherRoutes = require('./routes/nonfresherRoutes');
 /* TODO: figure out if/how to import this instead of require - pranjal */
@@ -47,6 +48,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/fresher", fresherRoutes);
 app.use("/api/nonfresher", nonfresherRoutes);
+app.use("/api/smp", smpRoutes);
 const PORT = process.env.PORT || 8500;
 app.listen(PORT, () => {
   console.log("Connected to Backend on Port", PORT);
