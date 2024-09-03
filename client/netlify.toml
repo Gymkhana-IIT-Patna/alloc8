@@ -1,4 +1,4 @@
 [[redirects]]
   from = "/api/*"
-  to = "http://13.127.148.249:80/api/:splat"
+  to = "https://api.alloc8.in/api/:splat"
   status = 200
