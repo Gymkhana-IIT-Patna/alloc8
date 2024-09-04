@@ -32,15 +32,13 @@ router.use(async (req, res, next) => {
         let firstname_roll = email.split("@")[0];
         let parts = firstname_roll.split("_");
         for (let part of parts) {
-          if (part.startsWith("2421")) {
-            console.error("PhD24 trying to allocate fresher room");
-            res.sendStatus(401);
-            return;
-          } else if (part.startsWith("24")) {
+          if ((part.startsWith("24") && !part.startsWith("2421"))
+            || (part.startsWith("23") && !part.startsWith("2321"))
+            || (part.startsWith("22") && !part.startsWith("2221"))) {
             next();
           }
         }
-        console.error("Non fresher trying to allocate fresher room");
+        console.error("Non fresher trying to allocate fresher room: ", parts);
         res.sendStatus(401);
     } catch (e) {
         console.error(e);
