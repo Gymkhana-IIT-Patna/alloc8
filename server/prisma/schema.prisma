@@ -54,7 +54,7 @@ model smpDetails{
   rollnum String @unique
   branch String
   placeOfLiving String
-  languagesSpoken String[]
+  motherTongue String[]
   sportsHobbies String
   techHobbies String
   culturalHobbies String

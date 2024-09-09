@@ -30,7 +30,7 @@ export default function SmpForm() {
   const onSubmit = (formData) => {
     console.log(formData);
     instance.acquireTokenSilent(accessTokenRequest).then((res) => {
-      fetch("/api/fresher/submit-details", {
+      fetch("/api/smp/submit-details", {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -63,22 +63,6 @@ export default function SmpForm() {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-6 text-lg"
       >
-        <div className="flex items-center justify-between gap-4 input-container">
-          <label className="w-1/3">
-            Roll Number<span className="text-red-500">*</span>
-          </label>
-          <input
-            {...register("rollnum", { required: "Roll Number is required" })}
-            type="text"
-            className={`mt-2 border-2 border-gray-300 focus:border-blue-500 px-4 py-2 focus:outline-none w-2/3 ${
-              errors.rollnum ? "border-red-500" : ""
-            }`}
-          />
-          {errors.rollnum && (
-            <p className="text-red-500">{errors.rollnum.message}</p>
-          )}
-        </div>
-
         <div className="flex items-center justify-between gap-4 input-container">
           <label className="w-1/3">
             Branch<span className="text-red-500">*</span>

@@ -23,7 +23,7 @@ async function getDetails(req, res) {
   let {
     branch,
     placeOfLiving,
-    languagesSpoken,
+    motherTongue,
     sportsHobbies,
     techHobbies,
     culturalHobbies,
@@ -43,7 +43,7 @@ async function getDetails(req, res) {
         rollnum,
         branch,
         placeOfLiving,
-        languagesSpoken,
+        motherTongue,
         sportsHobbies,
         techHobbies,
         culturalHobbies,

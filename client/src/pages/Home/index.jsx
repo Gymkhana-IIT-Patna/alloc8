@@ -47,7 +47,7 @@ const HomePage = () => {
           className="h-[40px] border-b-2 pb-2 mb-5"
         />
         <span className="w-full text-center">
-          Hostel Allotment Platform of IIT Patna
+          Hostel/SMP Allotment Platform of IIT Patna
         </span>
         <form className="w-full">
           <div className="w-full flex justify-center items-center mt-8">
@@ -60,13 +60,6 @@ const HomePage = () => {
             </Button>
           </div>
         </form>
-        <div className="my-5">OR</div>
-        <Link
-          to="/freshers"
-          className=" leading-[1.5px] p-5 py-6 rounded-sm  bg-slate-200"
-        >
-          New Student - 2024 Batch?
-        </Link>
       </div>
       <Footer></Footer>
     </div>

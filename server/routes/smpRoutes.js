@@ -36,6 +36,7 @@ router.use(async (req, res, next) => {
             || (part.startsWith("23") && !part.startsWith("2321"))
             || (part.startsWith("22") && !part.startsWith("2221"))) {
             next();
+            return;
           }
         }
         console.error("Non fresher trying to allocate fresher room: ", parts);

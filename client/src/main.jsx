@@ -14,6 +14,7 @@ import {
   Success,
   Error,
 } from "./pages/index.js";
+import Header from "@/components/Header";
 // Outlook Auth
 import { MsalProvider } from "@azure/msal-react";
 import { PublicClientApplication } from "@azure/msal-browser";
@@ -41,7 +42,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/smpform",
-        element: <SmpForm />,
+        element: <><Header /><SmpForm /></>,
         errorElement: <Error />,
       },
       {
