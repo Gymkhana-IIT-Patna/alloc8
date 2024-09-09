@@ -23,6 +23,9 @@ export default function SmpForm() {
   const navigate = useNavigate();
   const { accounts, instance } = useMsal();
 
+  const [otherSelected, setOtherSelected] = useState(false);
+  const [customLanguage, setCustomLanguage] = useState("");
+
   const accessTokenRequest = {
     account: accounts[0],
   };
@@ -57,7 +60,7 @@ export default function SmpForm() {
   return (
     <div className="max-w-2xl mx-auto px-10 pt-[3em] pb-[5em] rounded-[23px] md:rounded-[33px] bg-white shadow-lg">
       <h2 className="text-4xl font-medium text-[#000000] text-center mb-[1em]">
-        Register
+        SMP Form
       </h2>
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -107,7 +110,7 @@ export default function SmpForm() {
           <label className="w-1/3">
             Languages Spoken<span className="text-red-500">*</span>
           </label>
-          <div className="w-2/3 input-container">
+          {/* <div className="w-2/3 input-container">
             <Controller
               name="motherTongue"
               control={control}
@@ -131,6 +134,56 @@ export default function SmpForm() {
                   }
                   value={field.value}
                 />
+              )}
+            />
+            {errors.motherTongue && (
+              <p className="text-red-500">{errors.motherTongue.message}</p>
+            )}
+          </div> */}
+
+          <div className="w-2/3 input-container">
+            <Controller
+              name="motherTongue"
+              control={control}
+              defaultValue={[]}
+              rules={{
+                validate: (value) =>
+                  value.length > 0 || "At least one language must be selected",
+              }}
+              render={({ field }) => (
+                <>
+                  <Select
+                    {...field}
+                    isMulti
+                    options={[
+                      ...languageOptions,
+                      { value: "other", label: "Other languages" },
+                    ]} 
+                    className={`multiselect mt-2 ${
+                      errors.motherTongue ? "border-red-500" : "border-gray-300"
+                    } focus:border-blue-500`}
+                    classNamePrefix="select"
+                    placeholder="Select languages"
+                    onChange={(selectedOptions) => {
+                      field.onChange(selectedOptions);
+                      setOtherSelected(
+                        selectedOptions.some(
+                          (option) => option.value === "other"
+                        )
+                      ); 
+                    }}
+                    value={field.value}
+                  />
+                  {otherSelected && (
+                    <input
+                      type="text"
+                      className="mt-2 border-2 border-gray-300 focus:border-blue-500 px-4 py-2 w-full"
+                      placeholder="Enter other languages"
+                      value={customLanguage}
+                      onChange={(e) => setCustomLanguage(e.target.value)}
+                    />
+                  )}
+                </>
               )}
             />
             {errors.motherTongue && (
