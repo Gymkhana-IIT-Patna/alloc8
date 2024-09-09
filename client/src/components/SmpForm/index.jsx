@@ -178,7 +178,7 @@ export default function SmpForm() {
                     <input
                       type="text"
                       className="mt-2 border-2 border-gray-300 focus:border-blue-500 px-4 py-2 w-full"
-                      placeholder="Enter other languages"
+                      placeholder="Other languages that you speak"
                       value={customLanguage}
                       onChange={(e) => setCustomLanguage(e.target.value)}
                     />
