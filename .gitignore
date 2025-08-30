@@ -38,3 +38,6 @@ client/src/authConfig.js
 
 */.ipynb_checkpoints
 data-gen/*.json
+
+# Clustered Data
+clustering/data/*
