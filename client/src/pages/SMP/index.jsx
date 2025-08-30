@@ -10,6 +10,8 @@ import { BrowserAuthError, InteractionRequiredAuthError } from "@azure/msal-brow
 import { useMsal, AuthenticatedTemplate } from "@azure/msal-react";
 import SmpForm from "@/components/SmpForm";
 import SMP_Form from "@/components/SmpForm/form";
+import Success from "@/components/SmpForm/success";
+
 
 const SMPPage = () => {
   const { accounts, instance } = useMsal();
@@ -17,6 +19,7 @@ const SMPPage = () => {
   const [idTokenClaims, setIdTokenClaims] = useState();
   const [loading, setLoading] = useState(true);
   const [studData, setStudData] = useState({});
+  const [alreadySubmitted, setAlreadySubmitted] = useState(false);
 
   const navigate = useNavigate();
   const contentRef = useRef();
@@ -68,6 +71,28 @@ const SMPPage = () => {
       })
 
   }, [idToken]);
+
+  // check if student already submitted
+  useEffect(() => {
+    if (!idToken) return;
+
+    fetch(`${import.meta.env.VITE_SERVER_URL || "http://localhost:8500"}/api/smp/check-stud`, {
+      method: "POST",
+      headers: { "X-Alloc8-IDToken": idToken },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.exists) {
+          setAlreadySubmitted(true);
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        setLoading(false);
+      });
+  }, [idToken]);
+
   const submit = async (values) => {
     console.log(values)
     instance.acquireTokenSilent(accessTokenRequest).then(res => {
@@ -80,7 +105,7 @@ const SMPPage = () => {
         body: JSON.stringify(values)
       }).then(res => {
         if (res.status == 200) {
-          alert("Submitted successfully");
+          setAlreadySubmitted(true);
         } else if (res.status == 400) {
           alert('You have already submitted before!')
         } else {
@@ -89,6 +114,18 @@ const SMPPage = () => {
         }
       });
     });
+  }
+
+  if (loading) {
+    return (
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      );
+  }
+
+  if (alreadySubmitted) {
+    return <Success />;
   }
 
   return (<>

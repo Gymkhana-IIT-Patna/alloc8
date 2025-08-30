@@ -59,6 +59,7 @@ model smpDetails {
   branch String
   domain String
   goals String
+  active_sem String?
   languages     String[] 
   tech_interests String[]
   sports        String[] 

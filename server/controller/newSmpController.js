@@ -96,6 +96,29 @@ async function resetDetails(req, res) {
   }
 }
 
+async function checkStud(req, res) {
+  const rollnum = getRollNumber(req.auth.preferred_username);
+  try {
+    const student = await prisma.smpDetails.findUnique({
+      where: { rollnum },
+    });
+
+    if (student) {
+      return res.status(200).json({
+        exists: true,
+      });
+    } else {
+      return res.status(200).json({
+        exists: false,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error.message });
+  }
+}
+
+
 async function submitDetails(req, res) {
   const rollnum = getRollNumber(req.auth.preferred_username);
   const token = req.headers['X-Alloc8-IDToken']
@@ -108,6 +131,14 @@ async function submitDetails(req, res) {
     const student = await prisma.smpDetails.findUnique({
       where: { rollnum: rollnum },
     });
+
+    const yearPrefix = rollnum.substring(0, 2);  // e.g. "24"
+
+    if (yearPrefix !== "25" && yearPrefix !== "24") {
+      return res.status(401).json({
+        error: "Only 1st and 2nd Year Students can fill this form.",
+      });
+    }
 
     if (student) {
       return res.status(400).json({
@@ -132,5 +163,5 @@ async function submitDetails(req, res) {
     res.status(500).json({ error: error.message });
   }
 }
-export default { submitDetails, getDetails, resetDetails };
+export default { submitDetails, getDetails, resetDetails, checkStud };
 /* vi: set et sw=2: */

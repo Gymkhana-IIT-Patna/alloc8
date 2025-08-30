@@ -50,6 +50,7 @@ router.use(async (req, res, next) => {
 
 router.post("/submit-details", smpController.getDetails);
 router.post("/submit", newSmpController.submitDetails);
+router.post("/check-stud", newSmpController.checkStud);
 router.put("/reset-details", smpController.resetDetails);
 
 export default router;
