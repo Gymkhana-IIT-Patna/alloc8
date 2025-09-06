@@ -40,4 +40,4 @@ client/src/authConfig.js
 data-gen/*.json
 
 # Clustered Data
-clustering/data/*
+*/data/*

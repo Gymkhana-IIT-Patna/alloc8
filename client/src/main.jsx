@@ -20,6 +20,7 @@ import { MsalProvider } from "@azure/msal-react";
 import { PublicClientApplication, EventType } from "@azure/msal-browser";
 import { msalConfig } from "./authConfig.js";
 import SMPPage from "./pages/SMP";
+import GetSMP from "./pages/getSMP";
 // import SmpForm from "./components/SmpForm";
 
 const router = createBrowserRouter([
@@ -54,6 +55,11 @@ const router = createBrowserRouter([
       {
         path: "/smp",
         element: <SMPPage />,
+        errorElement: <Error />,
+      },
+      {
+        path: "/getSMP",
+        element: <GetSMP />,
         errorElement: <Error />,
       },
       /* {
